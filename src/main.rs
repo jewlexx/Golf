@@ -42,8 +42,8 @@ struct Ball {
 
 impl Ball {
     const STARTING_POS: Vec3 = Vec3::ZERO;
-    const RADIUS: f32 = 30.;
-    const SIZE: Vec3 = Vec3::splat(Self::RADIUS);
+    const RADIUS: f32 = 15.;
+    const SIZE: Vec3 = Vec3::splat(Self::RADIUS * 2.);
     const COLOUR: Color = Color::WHITE;
 }
 
@@ -121,6 +121,23 @@ fn move_ball(
     }
 }
 
+fn detect_collisions(mut query: Query<(&mut Transform, &Ball, &mut Velocity)>) {
+    for (transform, _, mut velocity) in query.iter_mut() {
+        let Vec3 { x, y, .. } = transform.translation;
+        // TODO: Find a better way to detect wall collisions (maybe just use wall entities)
+        if !(LEFT_WALL..=RIGHT_WALL).contains(&(x + Ball::RADIUS))
+            || !(LEFT_WALL..=RIGHT_WALL).contains(&(x - Ball::RADIUS))
+        {
+            velocity.x *= -1.;
+        }
+        if !(BOTTOM_WALL..=TOP_WALL).contains(&(y + Ball::RADIUS))
+            || !(BOTTOM_WALL..=TOP_WALL).contains(&(y - Ball::RADIUS))
+        {
+            velocity.y *= -1.;
+        }
+    }
+}
+
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins.set(WindowPlugin {
@@ -136,5 +153,6 @@ fn main() {
         .add_startup_system(init_ball)
         .add_system(move_ball)
         .add_system(apply_velocity.after(move_ball))
+        .add_system(detect_collisions.after(apply_velocity))
         .run();
 }
