@@ -39,7 +39,7 @@ fn init_ball(
 }
 
 fn degrade_velocity(velocity: &mut Velocity) {
-    velocity.0 -= velocity.0 * 0.01;
+    velocity.0 *= 0.99;
 }
 
 fn apply_velocity(time: Res<Time>, mut query: Query<(&mut Transform, &mut Velocity)>) {
