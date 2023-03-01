@@ -8,7 +8,7 @@ struct Velocity(Vec2);
 
 #[derive(Default, Component)]
 struct Ball {
-    mouse_diff: Option<Vec2>,
+    mouse_start: Option<Vec2>,
 }
 
 impl Ball {
@@ -51,6 +51,10 @@ fn apply_velocity(time: Res<Time>, mut query: Query<(&mut Transform, &mut Veloci
     }
 }
 
+fn calc_diff(a: Vec2, b: Vec2) -> Vec2 {
+    (a - b)
+}
+
 // TODO: Implement more of a drag system than a distance from ball system
 fn move_ball(
     windows: Res<Windows>,
@@ -66,28 +70,22 @@ fn move_ball(
     if keyboard.just_pressed(KeyCode::R) {
         velocity.0 = Vec2::ZERO;
         transform.translation = Vec3::ZERO;
-        ball.mouse_diff = None;
+        ball.mouse_start = None;
 
         return;
     }
 
     if let Some(mouse_pos) = window.cursor_position() {
         if mouse_buttons.pressed(MouseButton::Left) {
-            // Convert ball translation to window logical position
-            let ball_x = transform.translation.x + window.width() / 2.;
-            let ball_y = transform.translation.y + window.height() / 2.;
-
-            let mouse_x = mouse_pos.x;
-            let mouse_y = mouse_pos.y;
-
-            let diff_x = ball_x - mouse_x;
-            let diff_y = ball_y - mouse_y;
-
-            ball.mouse_diff = Some(Vec2::new(diff_x, diff_y) * -1.);
-        } else if let Some(mouse_diff) = ball.mouse_diff {
+            if ball.mouse_start.is_none() {
+                ball.mouse_start = Some(mouse_pos);
+            }
+        } else if let Some(mouse_start) = ball.mouse_start {
+            let mouse_diff = calc_diff(mouse_start, mouse_pos) * -1.;
+            dbg!(mouse_start - mouse_pos);
             velocity.x -= mouse_diff.x;
             velocity.y -= mouse_diff.y;
-            ball.mouse_diff = None;
+            ball.mouse_start = None;
         }
     }
 }
