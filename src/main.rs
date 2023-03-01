@@ -52,13 +52,41 @@ fn apply_velocity(time: Res<Time>, mut query: Query<(&mut Transform, &Velocity)>
     }
 }
 
-fn move_ball() {}
+fn move_ball(
+    windows: Res<Windows>,
+    buttons: Res<Input<MouseButton>>,
+    mut query: Query<(&Ball, &Transform, &mut Velocity)>,
+) {
+    let window = windows.get_primary().expect("single window");
+
+    if let Some(mouse_pos) = window.cursor_position() {
+        debug_assert_eq!(query.iter().count(), 1);
+
+        if buttons.pressed(MouseButton::Left) {
+            let (_, transform, mut velocity) = query.iter_mut().next().unwrap();
+            let ball_x = transform.translation.x;
+            let ball_y = transform.translation.y;
+            let mouse_x = mouse_pos.x;
+            let mouse_y = mouse_pos.y;
+
+            let diff_x = ball_x - mouse_x;
+            let diff_y = ball_y - mouse_y;
+
+            velocity.x -= diff_x * Ball::SIZE.x;
+            velocity.y -= diff_y * Ball::SIZE.y;
+        }
+    }
+
+    // for (mut ball, velocity) in &mut query {
+    // ball.pos += velocity.x * ball.radius * time::delta_seconds();
+    // }
+}
 
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
         .add_startup_system(init_ball)
-        .add_system(apply_velocity)
         .add_system(move_ball)
+        .add_system(apply_velocity.after(move_ball))
         .run();
 }
