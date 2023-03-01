@@ -21,8 +21,19 @@ pub fn normalize(vec: Vec2, max: f32) -> Vec2 {
     v
 }
 
+// x coordinates
+const LEFT_WALL: f32 = -450.;
+const RIGHT_WALL: f32 = 450.;
+// y coordinates
+const BOTTOM_WALL: f32 = -300.;
+const TOP_WALL: f32 = 300.;
+
 #[derive(Default, Component, Deref, DerefMut)]
 struct Velocity(Vec2);
+
+impl Velocity {
+    const MULTIPLIER: f32 = 5.;
+}
 
 #[derive(Default, Component)]
 struct Ball {
@@ -31,7 +42,7 @@ struct Ball {
 
 impl Ball {
     const STARTING_POS: Vec3 = Vec3::ZERO;
-    const RADIUS: f32 = 30.0;
+    const RADIUS: f32 = 30.;
     const SIZE: Vec3 = Vec3::splat(Self::RADIUS);
     const COLOUR: Color = Color::WHITE;
 }
@@ -101,7 +112,7 @@ fn move_ball(
             }
         } else if let Some(mouse_start) = ball.mouse_start {
             let mouse_diff = calc_diff(mouse_start, mouse_pos) * -1.;
-            let normalized_diff = normalize(mouse_diff, 100.) * 7.5;
+            let normalized_diff = normalize(mouse_diff, 100.) * Velocity::MULTIPLIER;
             dbg!(mouse_start - mouse_pos, normalized_diff);
             velocity.x -= normalized_diff.x;
             velocity.y -= normalized_diff.y;
@@ -112,7 +123,16 @@ fn move_ball(
 
 fn main() {
     App::new()
-        .add_plugins(DefaultPlugins)
+        .add_plugins(DefaultPlugins.set(WindowPlugin {
+            window: WindowDescriptor {
+                width: 900.,
+                height: 600.,
+                title: "Mini Golf".to_string(),
+                resizable: false,
+                ..default()
+            },
+            ..default()
+        }))
         .add_startup_system(init_ball)
         .add_system(move_ball)
         .add_system(apply_velocity.after(move_ball))
