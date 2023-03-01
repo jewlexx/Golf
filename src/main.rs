@@ -1,23 +1,14 @@
+#![warn(clippy::all, clippy::pedantic)]
+#![allow(clippy::needless_pass_by_value)]
+
 use bevy::{prelude::*, sprite::MaterialMesh2dBundle, DefaultPlugins};
 
 #[derive(Default, Component, Deref, DerefMut)]
 struct Velocity(Vec2);
 
-#[derive(Component)]
+#[derive(Default, Component)]
 struct Ball {
-    pos: Vec3,
-    radius: f32,
     mouse_diff: Option<Vec2>,
-}
-
-impl Default for Ball {
-    fn default() -> Self {
-        Self {
-            pos: Self::STARTING_POS,
-            radius: Self::RADIUS,
-            mouse_diff: None,
-        }
-    }
 }
 
 impl Ball {
@@ -47,10 +38,16 @@ fn init_ball(
     ));
 }
 
-fn apply_velocity(time: Res<Time>, mut query: Query<(&mut Transform, &Velocity)>) {
-    for (mut transform, velocity) in &mut query {
+fn degrade_velocity(velocity: &mut Velocity) {
+    velocity.0 -= velocity.0 * 0.01;
+}
+
+fn apply_velocity(time: Res<Time>, mut query: Query<(&mut Transform, &mut Velocity)>) {
+    for (mut transform, mut velocity) in query.iter_mut() {
         transform.translation.x += velocity.x * time.delta_seconds();
         transform.translation.y += velocity.y * time.delta_seconds();
+
+        degrade_velocity(velocity.as_mut());
     }
 }
 
