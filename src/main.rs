@@ -152,7 +152,7 @@ fn main() {
         }))
         .add_startup_system(init_ball)
         .add_system(move_ball)
-        .add_system(apply_velocity.after(move_ball))
-        .add_system(detect_collisions.after(apply_velocity))
+        .add_system(apply_velocity)
+        .add_system(detect_collisions)
         .run();
 }
