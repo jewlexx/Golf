@@ -75,18 +75,20 @@ fn move_ball(
 
     if let Some(mouse_pos) = window.cursor_position() {
         if mouse_buttons.pressed(MouseButton::Left) {
-            let ball_x = transform.translation.x;
-            let ball_y = transform.translation.y;
+            // Convert ball translation to window logical position
+            let ball_x = transform.translation.x + window.width() / 2.;
+            let ball_y = transform.translation.y + window.height() / 2.;
+
             let mouse_x = mouse_pos.x;
             let mouse_y = mouse_pos.y;
 
             let diff_x = ball_x - mouse_x;
             let diff_y = ball_y - mouse_y;
 
-            ball.mouse_diff = Some(Vec2::new(diff_x, diff_y));
+            ball.mouse_diff = Some(Vec2::new(diff_x, diff_y) * -1.);
         } else if let Some(mouse_diff) = ball.mouse_diff {
-            velocity.x -= mouse_diff.x * Ball::SIZE.x;
-            velocity.y -= mouse_diff.y * Ball::SIZE.y;
+            velocity.x -= mouse_diff.x;
+            velocity.y -= mouse_diff.y;
             ball.mouse_diff = None;
         }
     }
