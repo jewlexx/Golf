@@ -56,6 +56,7 @@ fn init_ball(
     ));
 }
 
+// TODO: Fix degradation, to not "ease out"
 fn degrade_velocity(velocity: &mut Velocity) {
     velocity.0 *= 0.99;
 }
@@ -100,7 +101,7 @@ fn move_ball(
             }
         } else if let Some(mouse_start) = ball.mouse_start {
             let mouse_diff = calc_diff(mouse_start, mouse_pos) * -1.;
-            let normalized_diff = normalize(mouse_diff, 100.) * 10.;
+            let normalized_diff = normalize(mouse_diff, 100.) * 7.5;
             dbg!(mouse_start - mouse_pos, normalized_diff);
             velocity.x -= normalized_diff.x;
             velocity.y -= normalized_diff.y;
