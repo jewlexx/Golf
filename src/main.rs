@@ -52,7 +52,7 @@ fn apply_velocity(time: Res<Time>, mut query: Query<(&mut Transform, &mut Veloci
 }
 
 fn calc_diff(a: Vec2, b: Vec2) -> Vec2 {
-    (a - b)
+    a - b
 }
 
 // TODO: Implement more of a drag system than a distance from ball system
