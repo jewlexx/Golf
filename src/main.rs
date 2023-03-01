@@ -7,6 +7,7 @@ struct Velocity(Vec2);
 struct Ball {
     pos: Vec3,
     radius: f32,
+    mouse_diff: Option<Vec2>,
 }
 
 impl Default for Ball {
@@ -14,6 +15,7 @@ impl Default for Ball {
         Self {
             pos: Self::STARTING_POS,
             radius: Self::RADIUS,
+            mouse_diff: None,
         }
     }
 }
@@ -54,16 +56,25 @@ fn apply_velocity(time: Res<Time>, mut query: Query<(&mut Transform, &Velocity)>
 
 fn move_ball(
     windows: Res<Windows>,
-    buttons: Res<Input<MouseButton>>,
-    mut query: Query<(&Ball, &Transform, &mut Velocity)>,
+    mouse_buttons: Res<Input<MouseButton>>,
+    keyboard: Res<Input<KeyCode>>,
+    mut query: Query<(&mut Transform, &mut Ball, &mut Velocity)>,
 ) {
     let window = windows.get_primary().expect("single window");
 
-    if let Some(mouse_pos) = window.cursor_position() {
-        debug_assert_eq!(query.iter().count(), 1);
+    debug_assert_eq!(query.iter().count(), 1);
+    let (mut transform, mut ball, mut velocity) = query.iter_mut().next().unwrap();
 
-        if buttons.pressed(MouseButton::Left) {
-            let (_, transform, mut velocity) = query.iter_mut().next().unwrap();
+    if keyboard.just_pressed(KeyCode::R) {
+        velocity.0 = Vec2::ZERO;
+        transform.translation = Vec3::ZERO;
+        ball.mouse_diff = None;
+
+        return;
+    }
+
+    if let Some(mouse_pos) = window.cursor_position() {
+        if mouse_buttons.pressed(MouseButton::Left) {
             let ball_x = transform.translation.x;
             let ball_y = transform.translation.y;
             let mouse_x = mouse_pos.x;
@@ -72,14 +83,13 @@ fn move_ball(
             let diff_x = ball_x - mouse_x;
             let diff_y = ball_y - mouse_y;
 
-            velocity.x -= diff_x * Ball::SIZE.x;
-            velocity.y -= diff_y * Ball::SIZE.y;
+            ball.mouse_diff = Some(Vec2::new(diff_x, diff_y));
+        } else if let Some(mouse_diff) = ball.mouse_diff {
+            velocity.x -= mouse_diff.x * Ball::SIZE.x;
+            velocity.y -= mouse_diff.y * Ball::SIZE.y;
+            ball.mouse_diff = None;
         }
     }
-
-    // for (mut ball, velocity) in &mut query {
-    // ball.pos += velocity.x * ball.radius * time::delta_seconds();
-    // }
 }
 
 fn main() {
