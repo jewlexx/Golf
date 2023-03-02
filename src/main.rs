@@ -55,6 +55,7 @@ fn main() {
         ..default()
     }))
     .add_plugin(RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(100.0))
+    .add_startup_system(graphics::tiles::load)
     .add_startup_system(graphics::setup)
     .add_startup_system(Ball::init)
     .add_system(Ball::move_ball)
