@@ -71,8 +71,9 @@ fn init_ball(
 fn degrade_velocity(velocity: &mut Velocity) {
     if velocity.0.x.abs() < 5. && velocity.0.y.abs() < 5. {
         velocity.0 = Vec2::ZERO;
+    } else {
+        velocity.0 *= 0.99;
     }
-    velocity.0 *= 0.99;
 }
 
 fn apply_velocity(time: Res<Time>, mut query: Query<(&mut Transform, &mut Velocity)>) {
