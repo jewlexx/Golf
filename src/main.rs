@@ -44,21 +44,22 @@ fn main() {
     #[cfg(features = "debug-render")]
     app.add_plugin(RapierDebugRenderPlugin::default());
 
-    app.add_plugins(DefaultPlugins.set(WindowPlugin {
-        window: WindowDescriptor {
-            width: 900.,
-            height: 600.,
-            title: "Mini Golf".to_string(),
-            resizable: false,
+    app.insert_resource(graphics::tiles::Tiles::default())
+        .add_plugins(DefaultPlugins.set(WindowPlugin {
+            window: WindowDescriptor {
+                width: 900.,
+                height: 600.,
+                title: "Mini Golf".to_string(),
+                resizable: false,
+                ..default()
+            },
             ..default()
-        },
-        ..default()
-    }))
-    .add_plugin(RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(100.0))
-    .add_startup_system(graphics::tiles::load)
-    .add_startup_system(graphics::setup)
-    .add_startup_system(Ball::init)
-    .add_system(Ball::move_ball)
-    .add_system(apply_velocity)
-    .run();
+        }))
+        .add_plugin(RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(100.0))
+        .add_startup_system(graphics::tiles::load)
+        .add_startup_system(graphics::setup)
+        .add_startup_system(Ball::init)
+        .add_system(Ball::move_ball)
+        .add_system(apply_velocity)
+        .run();
 }
