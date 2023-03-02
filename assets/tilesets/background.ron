@@ -1,0 +1,7 @@
+(
+    id: 0,
+    name: Some("Background"),
+    tiles: {
+        0: "../tiles/grass.ron",
+    }
+)

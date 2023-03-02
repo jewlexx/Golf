@@ -1,8 +1,9 @@
 #![warn(clippy::all, clippy::pedantic)]
 #![allow(clippy::needless_pass_by_value)]
 
-use bevy::{prelude::*, DefaultPlugins};
+use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
+use bevy_tileset::prelude::*;
 
 use components::{ball::Ball, vel::apply_velocity};
 
@@ -44,20 +45,31 @@ fn main() {
     #[cfg(features = "debug-render")]
     app.add_plugin(RapierDebugRenderPlugin::default());
 
-    app.insert_resource(graphics::tiles::Tiles::default())
-        .add_plugins(DefaultPlugins.set(WindowPlugin {
-            window: WindowDescriptor {
-                width: 900.,
-                height: 600.,
-                title: "Mini Golf".to_string(),
-                resizable: false,
+    app.init_resource::<graphics::tiles::Tiles>()
+        .add_plugins(
+            DefaultPlugins.set(WindowPlugin {
+                window: WindowDescriptor {
+                    width: 900.,
+                    height: 600.,
+                    title: "Mini Golf".to_string(),
+                    resizable: false,
+                    ..default()
+                },
                 ..default()
-            },
-            ..default()
-        }))
+            }), // .set(AssetPlugin {
+                //     watch_for_changes: cfg!(debug_assertions),
+                //     ..default()
+                // }),
+        )
+        .add_plugin(TilesetPlugin::default())
         .add_plugin(RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(100.0))
         .add_startup_system(graphics::tiles::load)
         .add_startup_system(graphics::setup)
+        .add_startup_system(
+            graphics::tiles::show
+                .after(graphics::tiles::load)
+                .after(graphics::setup),
+        )
         .add_startup_system(Ball::init)
         .add_system(Ball::move_ball)
         .add_system(apply_velocity)
