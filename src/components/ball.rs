@@ -21,34 +21,25 @@ impl Ball {
         mut meshes: ResMut<Assets<Mesh>>,
         mut materials: ResMut<Assets<ColorMaterial>>,
     ) {
-        /* Create the ground. */
+        // Create the ground (temp)
         commands
             .spawn(Collider::cuboid(500.0, 50.0))
-            .insert(TransformBundle::from(Transform::from_xyz(0.0, -100.0, 0.0)));
+            .insert(TransformBundle::from(Transform::from_xyz(0.0, -400.0, 0.0)));
 
         // Ball
         commands.spawn((
-            // SpriteBundle {
-            //     sprite: Sprite {
-            //         color: Color::rgb(0.0, 0.0, 0.0),
-            //         custom_size: Some(Ball::SIZE),
-            //         ..Default::default()
-            //     },
-            //     transform: Transform::from_translation(Ball::STARTING_POS),
-            //     ..Default::default()
-            // },
             MaterialMesh2dBundle {
                 mesh: meshes.add(shape::Circle::default().into()).into(),
                 material: materials.add(ColorMaterial::from(Ball::COLOUR)),
-                transform: Transform::from_translation(Ball::STARTING_POS),
+                transform: Transform::from_translation(Ball::STARTING_POS)
+                    .with_scale(Vec3::splat(15.0)),
                 ..default()
             },
             Ball::default(),
             Velocity(Vec2::ZERO),
             RigidBody::Dynamic,
             Collider::ball(Ball::SIZE.x / 2.),
-            Restitution::coefficient(0.7),
-            // TransformBundle::from(Transform::from_xyz(0.0, 400.0, 0.0)),
+            Restitution::coefficient(1.),
         ));
     }
 
