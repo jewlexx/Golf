@@ -1,4 +1,5 @@
 use bevy::{prelude::*, sprite::MaterialMesh2dBundle};
+use bevy_rapier2d::prelude::*;
 
 use crate::{calc_diff, normalize};
 
@@ -12,7 +13,7 @@ pub struct Ball {
 impl Ball {
     pub const STARTING_POS: Vec3 = Vec3::ZERO;
     pub const RADIUS: f32 = 15.;
-    pub const SIZE: Vec3 = Vec3::splat(Self::RADIUS * 2.);
+    pub const SIZE: Vec2 = Vec2::splat(Self::RADIUS * 2.);
     pub const COLOUR: Color = Color::WHITE;
 
     pub fn init(
@@ -20,16 +21,34 @@ impl Ball {
         mut meshes: ResMut<Assets<Mesh>>,
         mut materials: ResMut<Assets<ColorMaterial>>,
     ) {
+        /* Create the ground. */
+        commands
+            .spawn(Collider::cuboid(500.0, 50.0))
+            .insert(TransformBundle::from(Transform::from_xyz(0.0, -100.0, 0.0)));
+
         // Ball
         commands.spawn((
+            // SpriteBundle {
+            //     sprite: Sprite {
+            //         color: Color::rgb(0.0, 0.0, 0.0),
+            //         custom_size: Some(Ball::SIZE),
+            //         ..Default::default()
+            //     },
+            //     transform: Transform::from_translation(Ball::STARTING_POS),
+            //     ..Default::default()
+            // },
             MaterialMesh2dBundle {
                 mesh: meshes.add(shape::Circle::default().into()).into(),
                 material: materials.add(ColorMaterial::from(Ball::COLOUR)),
-                transform: Transform::from_translation(Ball::STARTING_POS).with_scale(Ball::SIZE),
+                transform: Transform::from_translation(Ball::STARTING_POS),
                 ..default()
             },
             Ball::default(),
             Velocity(Vec2::ZERO),
+            RigidBody::Dynamic,
+            Collider::ball(Ball::SIZE.x / 2.),
+            Restitution::coefficient(0.7),
+            // TransformBundle::from(Transform::from_xyz(0.0, 400.0, 0.0)),
         ));
     }
 

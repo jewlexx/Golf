@@ -2,6 +2,8 @@
 #![allow(clippy::needless_pass_by_value)]
 
 use bevy::{prelude::*, DefaultPlugins};
+use bevy_rapier2d::prelude::*;
+
 use components::{
     ball::Ball,
     vel::{apply_velocity, Velocity},
@@ -56,22 +58,39 @@ fn detect_collisions(mut query: Query<(&mut Transform, &Ball, &mut Velocity)>) {
     }
 }
 
+fn print_ball_altitude(positions: Query<&Transform, With<RigidBody>>) {
+    for transform in positions.iter() {
+        println!("Ball altitude: {}", transform.translation.y);
+    }
+}
+
 fn main() {
-    App::new()
-        .add_plugins(DefaultPlugins.set(WindowPlugin {
-            window: WindowDescriptor {
-                width: 900.,
-                height: 600.,
-                title: "Mini Golf".to_string(),
-                resizable: false,
-                ..default()
-            },
+    let mut app = App::new();
+
+    #[cfg(features = "debug-render")]
+    app.add_plugin(RapierDebugRenderPlugin::default());
+
+    app.add_plugins(DefaultPlugins.set(WindowPlugin {
+        window: WindowDescriptor {
+            width: 900.,
+            height: 600.,
+            title: "Mini Golf".to_string(),
+            resizable: false,
             ..default()
-        }))
-        .add_startup_system(graphics::setup)
-        .add_startup_system(Ball::init)
-        .add_system(Ball::move_ball)
-        .add_system(apply_velocity)
-        .add_system(detect_collisions)
-        .run();
+        },
+        ..default()
+    }))
+    // .insert_resource(ClearColor(Color::rgb(
+    //     0xF9 as f32 / 255.0,
+    //     0xF9 as f32 / 255.0,
+    //     0xFF as f32 / 255.0,
+    // )))
+    .add_plugin(RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(100.0))
+    .add_startup_system(graphics::setup)
+    .add_startup_system(Ball::init)
+    // .add_system(Ball::move_ball)
+    // .add_system(apply_velocity)
+    // .add_system(detect_collisions)
+    .add_system(print_ball_altitude)
+    .run();
 }
