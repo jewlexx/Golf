@@ -69,6 +69,9 @@ fn init_ball(
 
 // TODO: Fix degradation, to not "ease out"
 fn degrade_velocity(velocity: &mut Velocity) {
+    if velocity.0.x.abs() < 5. && velocity.0.y.abs() < 5. {
+        velocity.0 = Vec2::ZERO;
+    }
     velocity.0 *= 0.99;
 }
 
