@@ -8,6 +8,7 @@ edition = "2021"
 [dependencies]
 bevy = { version = "0.9.1", features = ["bevy_sprite", "bevy_text", "wav"] }
 bevy_rapier2d = { version = "0.20.0", default-features = false, features = ["simd-nightly", "async-collider", "dim2"] }
+bevy_tileset = "0.6.0"
 
 [features]
 default = ["native"]
