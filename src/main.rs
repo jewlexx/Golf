@@ -35,6 +35,9 @@ const RIGHT_WALL: f32 = 450.;
 const BOTTOM_WALL: f32 = -300.;
 const TOP_WALL: f32 = 300.;
 
+const SCREEN_WIDTH: f32 = 900.;
+const SCREEN_HEIGHT: f32 = 600.;
+
 fn calc_diff(a: Vec2, b: Vec2) -> Vec2 {
     a - b
 }
@@ -48,8 +51,8 @@ fn main() {
     app.add_plugins(
         DefaultPlugins.set(WindowPlugin {
             window: WindowDescriptor {
-                width: 900.,
-                height: 600.,
+                width: SCREEN_WIDTH,
+                height: SCREEN_HEIGHT,
                 title: "Mini Golf".to_string(),
                 resizable: false,
                 ..default()

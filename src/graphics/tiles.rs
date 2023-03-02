@@ -28,7 +28,30 @@ pub fn show(
     if let Some(tileset) = tilesets.get_by_name("Background") {
         let atlas = tileset.atlas();
 
-        if let Some((TileIndex::Standard(index), ..)) = tileset.select_tile("Grass") {
+        if let Some((TileIndex::Standard(index), data)) = tileset.select_tile("Grass") {
+            // This relies on the tiles being 48x48
+            // Ciel because it is better to draw an extra tile than not draw enough
+            let x_tiles = (crate::SCREEN_WIDTH / 48.).ceil() as i32;
+            let y_tiles = (crate::SCREEN_HEIGHT / 48.).ceil() as i32;
+
+            for y_index in 0..y_tiles {
+                let tile_y_offset = (y_index * 48 - 300) as f32;
+
+                for x_index in 0..x_tiles {
+                    let tile_x_offset = (x_index * 48 - 450 + 24) as f32;
+
+                    commands.spawn(SpriteSheetBundle {
+                        transform: Transform {
+                            translation: Vec3::new(tile_x_offset, tile_y_offset, 0.0),
+                            ..Default::default()
+                        },
+                        sprite: TextureAtlasSprite::new(index),
+                        texture_atlas: atlas.clone(),
+                        ..Default::default()
+                    });
+                }
+            }
+
             // Do something standard
             commands.spawn(SpriteSheetBundle {
                 transform: Transform {
