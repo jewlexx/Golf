@@ -2,17 +2,26 @@ use bevy::prelude::*;
 use bevy_tileset::prelude::*;
 
 #[derive(Debug, Default, Resource)]
-pub struct Tiles {
+pub struct Background {
     pub handle: Option<Handle<Tileset>>,
 }
 
-pub fn load(asset_server: Res<AssetServer>, mut tiles: ResMut<Tiles>) {
-    tiles.handle = Some(asset_server.load("tilesets/background.ron"));
+pub fn load(mut background_tileset: ResMut<Background>, asset_server: Res<AssetServer>) {
+    println!("Loading tileset");
+    background_tileset.handle = Some(asset_server.load("tilesets/background.ron"));
+    println!(
+        "Loaded tileset with handle: {:?}",
+        background_tileset.handle
+    );
 }
 
-pub fn show(tilesets: Tilesets, mut commands: Commands, tileset: Res<Tiles>) {
-    if tileset.handle.is_none() || !tilesets.contains_name("Background") {
-        println!("No grass tileset!");
+pub fn show(
+    tilesets: Tilesets,
+    mut commands: Commands,
+    tileset: Res<Background>,
+    mut has_ran: Local<bool>,
+) {
+    if tileset.handle.is_none() || *has_ran || !tilesets.contains_id(&0) {
         return;
     }
 
@@ -20,36 +29,25 @@ pub fn show(tilesets: Tilesets, mut commands: Commands, tileset: Res<Tiles>) {
         let atlas = tileset.atlas();
         let texture = tileset.texture().clone();
 
-        dbg!(&texture);
-
         commands.spawn(SpriteBundle {
             texture,
             transform: Transform::from_xyz(0.0, 0.0, 0.0),
             ..Default::default()
         });
 
-        if let Some((ref tile_index, ..)) = tileset.select_tile("Grass") {
-            dbg!(&tile_index);
-            match tile_index {
-                TileIndex::Standard(index) => {
-                    dbg!(&index);
-                    // Do something standard
-                    commands.spawn(SpriteSheetBundle {
-                        transform: Transform {
-                            translation: Vec3::new(08.0, -48.0, 0.0),
-                            ..Default::default()
-                        },
-                        sprite: TextureAtlasSprite::new(*index),
-                        texture_atlas: atlas.clone(),
-                        ..Default::default()
-                    });
-                }
-                TileIndex::Animated(start, end, speed) => {
-                    dbg!("Animated tileset wtf");
-
-                    // Do something  ✨ animated ✨
-                }
-            }
+        if let Some((TileIndex::Standard(index), ..)) = tileset.select_tile("Grass") {
+            // Do something standard
+            commands.spawn(SpriteSheetBundle {
+                transform: Transform {
+                    translation: Vec3::new(08.0, -48.0, 0.0),
+                    ..Default::default()
+                },
+                sprite: TextureAtlasSprite::new(index),
+                texture_atlas: atlas.clone(),
+                ..Default::default()
+            });
         }
+
+        *has_ran = true;
     }
 }

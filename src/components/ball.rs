@@ -11,7 +11,7 @@ pub struct Ball {
 }
 
 impl Ball {
-    pub const STARTING_POS: Vec3 = Vec3::ZERO;
+    pub const STARTING_POS: Vec3 = Vec3::new(0., 0., 1.);
     pub const RADIUS: f32 = 15.;
     pub const SIZE: Vec2 = Vec2::splat(Self::RADIUS * 2.);
     pub const COLOUR: Color = Color::WHITE;
