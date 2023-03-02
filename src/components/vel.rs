@@ -1,5 +1,7 @@
 use bevy::prelude::*;
 
+pub const MULTIPLIER: f32 = 5.;
+
 #[derive(Default, Component, Deref, DerefMut)]
 pub struct Velocity(pub Vec2);
 

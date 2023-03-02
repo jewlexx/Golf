@@ -88,7 +88,7 @@ fn main() {
     .add_plugin(RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(100.0))
     .add_startup_system(graphics::setup)
     .add_startup_system(Ball::init)
-    // .add_system(Ball::move_ball)
+    .add_system(Ball::move_ball)
     // .add_system(apply_velocity)
     // .add_system(detect_collisions)
     .add_system(print_ball_altitude)

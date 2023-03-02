@@ -3,7 +3,7 @@ use bevy_rapier2d::prelude::*;
 
 use crate::{calc_diff, normalize};
 
-use super::vel::Velocity;
+use super::vel;
 
 #[derive(Default, Component)]
 pub struct Ball {
@@ -36,10 +36,15 @@ impl Ball {
                 ..default()
             },
             Ball::default(),
-            Velocity(Vec2::ZERO),
             RigidBody::Dynamic,
+            // Disable gravity as we will be moving it ourselves
+            GravityScale(0.),
             Collider::ball(Ball::SIZE.x / 2.),
             Restitution::coefficient(1.),
+            Velocity {
+                linvel: Vec2::ZERO,
+                ..Default::default()
+            },
         ));
     }
 
@@ -56,7 +61,7 @@ impl Ball {
         let (mut transform, mut ball, mut velocity) = query.iter_mut().next().unwrap();
 
         if keyboard.just_pressed(KeyCode::R) {
-            velocity.0 = Vec2::ZERO;
+            velocity.linvel = Vec2::ZERO;
             transform.translation = Vec3::ZERO;
             ball.mouse_start = None;
 
@@ -70,10 +75,10 @@ impl Ball {
                 }
             } else if let Some(mouse_start) = ball.mouse_start {
                 let mouse_diff = calc_diff(mouse_start, mouse_pos) * -1.;
-                let normalized_diff = normalize(mouse_diff, 100.) * Velocity::MULTIPLIER;
+                let normalized_diff = normalize(mouse_diff, 100.) * vel::MULTIPLIER;
                 dbg!(mouse_start - mouse_pos, normalized_diff);
-                velocity.x -= normalized_diff.x;
-                velocity.y -= normalized_diff.y;
+                velocity.linvel.x -= normalized_diff.x;
+                velocity.linvel.y -= normalized_diff.y;
                 ball.mouse_start = None;
             }
         }
