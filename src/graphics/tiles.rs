@@ -27,7 +27,6 @@ pub fn show(
 
     if let Some(tileset) = tilesets.get_by_name("Background") {
         let atlas = tileset.atlas();
-        let texture = tileset.texture().clone();
 
         if let Some((TileIndex::Standard(index), ..)) = tileset.select_tile("Grass") {
             // Do something standard
