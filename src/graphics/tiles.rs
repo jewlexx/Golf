@@ -29,12 +29,6 @@ pub fn show(
         let atlas = tileset.atlas();
         let texture = tileset.texture().clone();
 
-        commands.spawn(SpriteBundle {
-            texture,
-            transform: Transform::from_xyz(0.0, 0.0, 0.0),
-            ..Default::default()
-        });
-
         if let Some((TileIndex::Standard(index), ..)) = tileset.select_tile("Grass") {
             // Do something standard
             commands.spawn(SpriteSheetBundle {
