@@ -4,10 +4,7 @@
 use bevy::{prelude::*, DefaultPlugins};
 use bevy_rapier2d::prelude::*;
 
-use components::{
-    ball::Ball,
-    vel::{apply_velocity, Velocity},
-};
+use components::{ball::Ball, vel::apply_velocity};
 
 mod components;
 mod graphics;
@@ -41,29 +38,6 @@ fn calc_diff(a: Vec2, b: Vec2) -> Vec2 {
     a - b
 }
 
-fn detect_collisions(mut query: Query<(&mut Transform, &Ball, &mut Velocity)>) {
-    for (transform, _, mut velocity) in query.iter_mut() {
-        let Vec3 { x, y, .. } = transform.translation;
-        // TODO: Find a better way to detect wall collisions (maybe just use wall entities)
-        if !(LEFT_WALL..=RIGHT_WALL).contains(&(x + Ball::RADIUS))
-            || !(LEFT_WALL..=RIGHT_WALL).contains(&(x - Ball::RADIUS))
-        {
-            velocity.x *= -1.;
-        }
-        if !(BOTTOM_WALL..=TOP_WALL).contains(&(y + Ball::RADIUS))
-            || !(BOTTOM_WALL..=TOP_WALL).contains(&(y - Ball::RADIUS))
-        {
-            velocity.y *= -1.;
-        }
-    }
-}
-
-fn print_ball_altitude(positions: Query<&Transform, With<RigidBody>>) {
-    for transform in positions.iter() {
-        println!("Ball altitude: {}", transform.translation.y);
-    }
-}
-
 fn main() {
     let mut app = App::new();
 
@@ -80,17 +54,10 @@ fn main() {
         },
         ..default()
     }))
-    // .insert_resource(ClearColor(Color::rgb(
-    //     0xF9 as f32 / 255.0,
-    //     0xF9 as f32 / 255.0,
-    //     0xFF as f32 / 255.0,
-    // )))
     .add_plugin(RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(100.0))
     .add_startup_system(graphics::setup)
     .add_startup_system(Ball::init)
     .add_system(Ball::move_ball)
-    // .add_system(apply_velocity)
-    // .add_system(detect_collisions)
-    .add_system(print_ball_altitude)
+    .add_system(apply_velocity)
     .run();
 }
