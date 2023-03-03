@@ -1,5 +1,6 @@
 #![warn(clippy::all, clippy::pedantic)]
 #![allow(clippy::needless_pass_by_value)]
+#![feature(let_chains)]
 
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;

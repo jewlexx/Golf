@@ -68,11 +68,14 @@ impl Ball {
                     ball.mouse_start = Some(mouse_pos);
                 }
             } else if let Some(mouse_start) = ball.mouse_start {
-                let mouse_diff = calc_diff(mouse_start, mouse_pos) * -1.;
-                let normalized_diff = normalize(mouse_diff, 100.) * vel::MULTIPLIER;
-                dbg!(mouse_start - mouse_pos, normalized_diff);
-                velocity.linvel.x -= normalized_diff.x;
-                velocity.linvel.y -= normalized_diff.y;
+                if velocity.linvel == Vec2::ZERO {
+                    let mouse_diff = calc_diff(mouse_start, mouse_pos) * -1.;
+                    let normalized_diff = normalize(mouse_diff, 100.) * vel::MULTIPLIER;
+                    dbg!(mouse_start - mouse_pos, normalized_diff);
+                    velocity.linvel.x -= normalized_diff.x;
+                    velocity.linvel.y -= normalized_diff.y;
+                }
+
                 ball.mouse_start = None;
             }
         }
