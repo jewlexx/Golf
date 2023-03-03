@@ -87,7 +87,7 @@ fn main() {
 
 #[cfg(test)]
 mod tests {
-    use super::{nearest_multiple, SCREEN_HEIGHT, SCREEN_WIDTH};
+    use super::nearest_multiple;
 
     #[test]
     fn test_nearest_multiple() {
