@@ -35,36 +35,42 @@ fn calc_diff(a: Vec2, b: Vec2) -> Vec2 {
     a - b
 }
 
+fn print_ball_altitude(bodies: Query<&Transform, With<RigidBody>>) {
+    for pos in bodies.iter() {
+        dbg!(pos.translation);
+    }
+}
+
 fn main() {
     let mut app = App::new();
 
-    #[cfg(features = "debug-render")]
+    app.add_plugins(DefaultPlugins.set(WindowPlugin {
+        window: WindowDescriptor {
+            width: SCREEN_WIDTH,
+            height: SCREEN_HEIGHT,
+            title: "Mini Golf".to_string(),
+            resizable: false,
+            ..default()
+        },
+        ..default()
+    }))
+    .add_plugin(TilesetPlugin::default())
+    .add_plugin(RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(100.0))
+    .init_resource::<graphics::tiles::Background>();
+
+    #[cfg(feature = "debug_render")]
     app.add_plugin(RapierDebugRenderPlugin::default());
 
-    app.add_plugins(
-        DefaultPlugins.set(WindowPlugin {
-            window: WindowDescriptor {
-                width: SCREEN_WIDTH,
-                height: SCREEN_HEIGHT,
-                title: "Mini Golf".to_string(),
-                resizable: false,
-                ..default()
-            },
-            ..default()
-        }), // .set(AssetPlugin {
-            //     watch_for_changes: cfg!(debug_assertions),
-            //     ..default()
-            // }),
-    )
-    .add_plugin(TilesetPlugin::default())
-    .init_resource::<graphics::tiles::Background>()
-    .add_plugin(RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(100.0))
-    .add_startup_system(graphics::tiles::load)
-    .add_startup_system(graphics::setup)
-    .add_startup_system(walls::init)
-    .add_startup_system(Ball::init)
-    .add_system(graphics::tiles::show)
-    .add_system(Ball::move_ball)
-    .add_system(vel::apply_velocity)
-    .run();
+    #[cfg(feature = "inspector")]
+    app.add_plugin(bevy_inspector_egui::quick::WorldInspectorPlugin);
+
+    app.add_startup_system(graphics::tiles::load)
+        .add_startup_system(graphics::setup)
+        .add_startup_system(walls::init)
+        .add_startup_system(Ball::init)
+        .add_system(graphics::tiles::show)
+        .add_system(Ball::move_ball)
+        .add_system(vel::apply_velocity)
+        // .add_system(print_ball_altitude)
+        .run();
 }
