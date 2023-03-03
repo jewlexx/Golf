@@ -13,7 +13,6 @@ pub struct Ball {
 impl Ball {
     pub const STARTING_POS: Vec3 = Vec3::new(0., 0., 1.);
     pub const RADIUS: f32 = 15.;
-    pub const SIZE: Vec2 = Vec2::splat(Self::RADIUS * 2.);
     pub const COLOUR: Color = Color::WHITE;
 
     pub fn init(
@@ -27,15 +26,15 @@ impl Ball {
                 mesh: meshes.add(shape::Circle::default().into()).into(),
                 material: materials.add(ColorMaterial::from(Ball::COLOUR)),
                 transform: Transform::from_translation(Ball::STARTING_POS)
-                    .with_scale(Vec3::splat(15.0)),
+                    .with_scale(Vec3::splat(Ball::RADIUS * 2.)),
                 ..default()
             },
             Ball::default(),
             RigidBody::Dynamic,
             // Disable gravity as we will be moving it ourselves
             GravityScale(0.),
-            Collider::ball(Ball::SIZE.x / 2.),
-            Restitution::coefficient(1.),
+            Collider::ball(0.5),
+            Restitution::coefficient(1.5),
             Velocity {
                 linvel: Vec2::ZERO,
                 ..Default::default()

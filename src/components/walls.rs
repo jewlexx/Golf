@@ -3,12 +3,14 @@ use bevy_rapier2d::prelude::*;
 
 use super::ball::Ball;
 
+const BALL_OFFSET: f32 = Ball::RADIUS * 2.;
+
 // x coordinates
-const LEFT_WALL: f32 = crate::SCREEN_WIDTH * -1. + Ball::RADIUS;
-const RIGHT_WALL: f32 = crate::SCREEN_WIDTH - Ball::RADIUS;
+const LEFT_WALL: f32 = crate::SCREEN_WIDTH / 2. * -1.;
+const RIGHT_WALL: f32 = crate::SCREEN_WIDTH / 2.;
 // y coordinates
-const BOTTOM_WALL: f32 = crate::SCREEN_HEIGHT * -1. + Ball::RADIUS;
-const TOP_WALL: f32 = crate::SCREEN_HEIGHT - Ball::RADIUS;
+const BOTTOM_WALL: f32 = crate::SCREEN_HEIGHT / 2. * -1. + BALL_OFFSET;
+const TOP_WALL: f32 = crate::SCREEN_HEIGHT / 2. - BALL_OFFSET;
 
 pub fn init(mut commands: Commands) {
     // Create the ground
