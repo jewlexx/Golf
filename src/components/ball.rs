@@ -21,20 +21,6 @@ impl Ball {
         mut meshes: ResMut<Assets<Mesh>>,
         mut materials: ResMut<Assets<ColorMaterial>>,
     ) {
-        // Create the ground (temp)
-        commands.spawn((
-            Collider::cuboid(500.0, 50.0),
-            SpriteBundle {
-                sprite: Sprite {
-                    color: Color::WHITE,
-                    custom_size: Some(Vec2::new(500.0, 50.0)),
-                    ..Default::default()
-                },
-                transform: Transform::from_xyz(0.0, -400.0, 0.0),
-                ..Default::default()
-            },
-        ));
-
         // Ball
         commands.spawn((
             MaterialMesh2dBundle {

@@ -5,7 +5,7 @@ use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 use bevy_tileset::prelude::*;
 
-use components::{ball::Ball, vel::apply_velocity};
+use components::{ball::Ball, vel, walls};
 
 mod components;
 mod graphics;
@@ -27,13 +27,6 @@ pub fn normalize(vec: Vec2, max: f32) -> Vec2 {
 
     v
 }
-
-// x coordinates
-const LEFT_WALL: f32 = -450.;
-const RIGHT_WALL: f32 = 450.;
-// y coordinates
-const BOTTOM_WALL: f32 = -300.;
-const TOP_WALL: f32 = 300.;
 
 const SCREEN_WIDTH: f32 = 900.;
 const SCREEN_HEIGHT: f32 = 600.;
@@ -68,9 +61,10 @@ fn main() {
     .add_plugin(RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(100.0))
     .add_startup_system(graphics::tiles::load)
     .add_startup_system(graphics::setup)
+    .add_startup_system(walls::init)
     .add_startup_system(Ball::init)
     .add_system(graphics::tiles::show)
     .add_system(Ball::move_ball)
-    .add_system(apply_velocity)
+    .add_system(vel::apply_velocity)
     .run();
 }
