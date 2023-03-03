@@ -13,6 +13,10 @@ CARGO_RELEASE_ARGS = "--release"
 [tasks.show-env]
 command = "env"
 
+[tasks.run-debug]
+args = ["run", "--features", "bevy/dynamic", "--features", "inspector"]
+command = "cargo"
+
 [tasks.install-target-wasm32-unknown-unknown]
 args = ["target", "install", "wasm32-unknown-unknown"]
 
