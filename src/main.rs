@@ -74,6 +74,9 @@ fn main() {
     #[cfg(feature = "inspector")]
     app.add_plugin(bevy_inspector_egui::quick::WorldInspectorPlugin);
 
+    #[cfg(debug_assertions)]
+    app.add_system(graphics::camera::shift);
+
     app.add_startup_system(graphics::tiles::load)
         .add_startup_system(graphics::camera::setup)
         .add_startup_system(walls::init)
