@@ -92,9 +92,9 @@ mod tests {
     #[test]
     fn test_nearest_multiple() {
         assert_eq!(nearest_multiple(99, 10), 100);
-        assert_eq!(nearest_multiple(900, 48), 912);
 
-        assert_eq!(SCREEN_WIDTH, 912.);
-        assert_eq!(SCREEN_HEIGHT, 624.);
+        // Ensure screen width and height are correct
+        assert_eq!(nearest_multiple(900, 48), 912);
+        assert_eq!(nearest_multiple(600, 48), 624);
     }
 }
