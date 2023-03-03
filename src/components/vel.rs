@@ -3,7 +3,7 @@ use bevy_rapier2d::prelude::*;
 
 use super::ball::Ball;
 
-pub const MULTIPLIER: f32 = 5.;
+pub const MULTIPLIER: f32 = 20.;
 const VERY_SLOW: f32 = 30.;
 const MIN_VAL: f32 = 10.;
 

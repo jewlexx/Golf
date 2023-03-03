@@ -56,7 +56,8 @@ impl Ball {
 
         if keyboard.just_pressed(KeyCode::R) {
             velocity.linvel = Vec2::ZERO;
-            transform.translation = Vec3::ZERO;
+            velocity.angvel = 0.;
+            transform.translation = Ball::STARTING_POS;
             ball.mouse_start = None;
 
             return;
