@@ -1,3 +1,6 @@
+serve-web:
+    cargo watch -- just build-web & serve wasm && fg
+
 build-web:
     cargo make --profile release build-web
 
