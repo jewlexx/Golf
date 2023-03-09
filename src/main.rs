@@ -3,7 +3,7 @@
 #![feature(let_chains)]
 #![feature(const_fn_floating_point_arithmetic)]
 
-use bevy::prelude::*;
+use bevy::{prelude::*, window::WindowResolution};
 use bevy_rapier2d::prelude::*;
 use bevy_tileset::prelude::*;
 
@@ -55,13 +55,12 @@ fn main() {
     let mut app = App::new();
 
     app.add_plugins(DefaultPlugins.set(WindowPlugin {
-        window: WindowDescriptor {
-            width: SCREEN_WIDTH,
-            height: SCREEN_HEIGHT,
-            title: "Mini Golf".to_string(),
+        primary_window: Some(Window {
+            resolution: WindowResolution::new(SCREEN_WIDTH, SCREEN_HEIGHT),
             resizable: false,
+            title: String::from("Mini Golf"),
             ..default()
-        },
+        }),
         ..default()
     }))
     .add_plugin(TilesetPlugin::default())
