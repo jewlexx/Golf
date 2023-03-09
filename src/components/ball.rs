@@ -1,4 +1,4 @@
-use bevy::{prelude::*, sprite::MaterialMesh2dBundle};
+use bevy::{prelude::*, sprite::MaterialMesh2dBundle, window::PrimaryWindow};
 use bevy_rapier2d::prelude::*;
 
 use crate::{calc_diff, normalize};
@@ -44,12 +44,12 @@ impl Ball {
 
     // TODO: Implement more of a drag system than a distance from ball system
     pub fn move_ball(
-        windows: Res<Windows>,
+        windows: Query<&Window, With<PrimaryWindow>>,
         mouse_buttons: Res<Input<MouseButton>>,
         keyboard: Res<Input<KeyCode>>,
         mut query: Query<(&mut Transform, &mut Ball, &mut Velocity)>,
     ) {
-        let window = windows.get_primary().expect("single window");
+        let window = windows.get_single().expect("single window");
 
         debug_assert_eq!(query.iter().count(), 1);
         let (mut transform, mut ball, mut velocity) = query.iter_mut().next().unwrap();
