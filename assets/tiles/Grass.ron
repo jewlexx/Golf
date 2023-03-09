@@ -1,4 +1,4 @@
 (
     name: "Grass",
-    tile: Standard("textures/JustGrass.png"),
+    tile: Standard("textures/Grass.png"),
 )
