@@ -3,15 +3,12 @@ use bevy_rapier2d::prelude::*;
 
 use super::ball::Ball;
 
-const BALL_OFFSET: f32 = Ball::RADIUS * 2.;
-const ADDITIVE: f32 = 50.;
-
 // x coordinates
-const LEFT_WALL: f32 = crate::SCREEN_WIDTH / 2. * -1. + Ball::RADIUS;
 const RIGHT_WALL: f32 = crate::SCREEN_WIDTH / 2. - Ball::RADIUS;
+const LEFT_WALL: f32 = RIGHT_WALL * -1.;
 // y coordinates
-const BOTTOM_WALL: f32 = crate::SCREEN_HEIGHT / 2. * -1. + BALL_OFFSET - ADDITIVE;
-const TOP_WALL: f32 = crate::SCREEN_HEIGHT / 2. - BALL_OFFSET + ADDITIVE;
+const TOP_WALL: f32 = crate::SCREEN_HEIGHT / 2. - Ball::RADIUS;
+const BOTTOM_WALL: f32 = TOP_WALL * -1.;
 
 enum Axis {
     X,
