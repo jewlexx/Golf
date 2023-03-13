@@ -62,6 +62,6 @@
                     tile: Standard("textures/Right Middle Grass.png")
                 )
             ]
-        ),
-    ]),
+        )
+    ])
 )
