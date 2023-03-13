@@ -7,67 +7,50 @@ const BALL_OFFSET: f32 = Ball::RADIUS * 2.;
 const ADDITIVE: f32 = 50.;
 
 // x coordinates
-const LEFT_WALL: f32 = crate::SCREEN_WIDTH / 2. * -1. - ADDITIVE;
-const RIGHT_WALL: f32 = crate::SCREEN_WIDTH / 2. + ADDITIVE;
+const LEFT_WALL: f32 = crate::SCREEN_WIDTH / 2. * -1. + Ball::RADIUS;
+const RIGHT_WALL: f32 = crate::SCREEN_WIDTH / 2. - Ball::RADIUS;
 // y coordinates
 const BOTTOM_WALL: f32 = crate::SCREEN_HEIGHT / 2. * -1. + BALL_OFFSET - ADDITIVE;
 const TOP_WALL: f32 = crate::SCREEN_HEIGHT / 2. - BALL_OFFSET + ADDITIVE;
-const WALL_Z: f32 = 0.5;
 
-pub fn init(mut commands: Commands) {
-    // Create the ground
-    commands.spawn((
-        Collider::cuboid(crate::SCREEN_WIDTH, 50.),
-        SpriteBundle {
-            sprite: Sprite {
-                color: Color::BLACK,
-                custom_size: Some(Vec2::new(crate::SCREEN_WIDTH, 50.)),
-                ..Default::default()
-            },
-            transform: Transform::from_xyz(0.0, BOTTOM_WALL, WALL_Z),
-            ..Default::default()
-        },
-    ));
+enum Axis {
+    X,
+    Y,
+}
 
-    // Create the roof
-    commands.spawn((
-        Collider::cuboid(crate::SCREEN_WIDTH, 50.),
-        SpriteBundle {
-            sprite: Sprite {
-                color: Color::BLACK,
-                custom_size: Some(Vec2::new(crate::SCREEN_WIDTH, 50.)),
-                ..Default::default()
-            },
-            transform: Transform::from_xyz(0.0, TOP_WALL, WALL_Z),
-            ..Default::default()
-        },
-    ));
+fn invert_velocity(velocity: &mut Velocity, axis: Axis) {
+    match axis {
+        Axis::X => velocity.linvel.x *= -1.,
+        Axis::Y => velocity.linvel.y *= -1.,
+    }
+}
 
-    // Create the left wall
-    commands.spawn((
-        Collider::cuboid(50., crate::SCREEN_HEIGHT),
-        SpriteBundle {
-            sprite: Sprite {
-                color: Color::BLACK,
-                custom_size: Some(Vec2::new(50., crate::SCREEN_HEIGHT)),
-                ..Default::default()
-            },
-            transform: Transform::from_xyz(LEFT_WALL, 0., WALL_Z),
-            ..Default::default()
-        },
-    ));
+/// Checks if the ball has reached any of the edges of the screen
+/// Will assign the ball's postion to said edge, to ensure that it does not clip out of bounds
+pub fn check_collide(mut balls: Query<(&mut Transform, &mut Velocity), With<Ball>>) {
+    let (mut pos, mut vel) = balls.get_single_mut().unwrap();
 
-    // Create the right wall
-    commands.spawn((
-        Collider::cuboid(50., crate::SCREEN_HEIGHT),
-        SpriteBundle {
-            sprite: Sprite {
-                color: Color::BLACK,
-                custom_size: Some(Vec2::new(50., crate::SCREEN_HEIGHT)),
-                ..Default::default()
-            },
-            transform: Transform::from_xyz(RIGHT_WALL, 0., WALL_Z),
-            ..Default::default()
-        },
-    ));
+    if pos.translation.x < LEFT_WALL {
+        pos.translation.x = LEFT_WALL;
+
+        invert_velocity(&mut vel, Axis::X);
+    }
+
+    if pos.translation.x > RIGHT_WALL {
+        pos.translation.x = RIGHT_WALL;
+
+        invert_velocity(&mut vel, Axis::X);
+    }
+
+    if pos.translation.y < BOTTOM_WALL {
+        pos.translation.y = BOTTOM_WALL;
+
+        invert_velocity(&mut vel, Axis::Y);
+    }
+
+    if pos.translation.y > TOP_WALL {
+        pos.translation.y = TOP_WALL;
+
+        invert_velocity(&mut vel, Axis::Y);
+    }
 }

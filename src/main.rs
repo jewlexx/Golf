@@ -83,8 +83,9 @@ fn main() {
     app.add_system(graphics::camera::shift);
 
     app.add_startup_system(graphics::camera::setup)
-        .add_startup_system(walls::init)
+        // .add_startup_system(walls::init)
         .add_startup_system(Ball::init)
+        .add_system(walls::check_collide)
         .add_system(Ball::move_ball)
         .add_system(vel::apply_velocity)
         // .add_system(print_ball_altitude)
