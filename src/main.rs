@@ -71,7 +71,7 @@ fn main() {
     //     .add_startup_system(graphics::tiles::load)
     //     .add_system(graphics::tiles::show);
 
-    app.insert_resource(ClearColor(Color::rgb(131., 224., 76.)));
+    app.insert_resource(ClearColor(Color::rgb_u8(131, 224, 76)));
 
     #[cfg(feature = "debug_render")]
     app.add_plugin(RapierDebugRenderPlugin::default());

@@ -20,7 +20,7 @@ pub fn init(mut commands: Commands) {
         Collider::cuboid(crate::SCREEN_WIDTH, 50.),
         SpriteBundle {
             sprite: Sprite {
-                color: Color::WHITE,
+                color: Color::BLACK,
                 custom_size: Some(Vec2::new(crate::SCREEN_WIDTH, 50.)),
                 ..Default::default()
             },
@@ -34,7 +34,7 @@ pub fn init(mut commands: Commands) {
         Collider::cuboid(crate::SCREEN_WIDTH, 50.),
         SpriteBundle {
             sprite: Sprite {
-                color: Color::WHITE,
+                color: Color::BLACK,
                 custom_size: Some(Vec2::new(crate::SCREEN_WIDTH, 50.)),
                 ..Default::default()
             },
@@ -48,7 +48,7 @@ pub fn init(mut commands: Commands) {
         Collider::cuboid(50., crate::SCREEN_HEIGHT),
         SpriteBundle {
             sprite: Sprite {
-                color: Color::WHITE,
+                color: Color::BLACK,
                 custom_size: Some(Vec2::new(50., crate::SCREEN_HEIGHT)),
                 ..Default::default()
             },
@@ -62,7 +62,7 @@ pub fn init(mut commands: Commands) {
         Collider::cuboid(50., crate::SCREEN_HEIGHT),
         SpriteBundle {
             sprite: Sprite {
-                color: Color::WHITE,
+                color: Color::BLACK,
                 custom_size: Some(Vec2::new(50., crate::SCREEN_HEIGHT)),
                 ..Default::default()
             },
