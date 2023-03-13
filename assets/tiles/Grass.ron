@@ -1,4 +1,67 @@
+#![enable(implicit_some)]
+
+// TODO: Add corner tiles
+
 (
     name: "Grass",
-    tile: Standard("textures/Grass.png"),
+    tile: Auto([
+        // Center Tile
+        (
+            rule: (
+                n: false,
+                s: false,
+                e: false,
+                w: false,
+            ),
+            variants: [
+                (
+                    tile: Standard("textures/Grass.png")
+                )
+            ]
+        ),
+        // Top Tile
+        (
+            rule: (
+                north: true,
+            ),
+            variants: [
+                (
+                    tile: Standard("textures/Middle Top Grass.png")
+                )
+            ]
+        ),
+        // Bottom Tile
+        (
+            rule: (
+                south: true,
+            ),
+            variants: [
+                (
+                    tile: Standard("textures/Bottom Middle Grass.png")
+                )
+            ]
+        ),
+        // Left Tile
+        (
+            rule: (
+                west: true,
+            ),
+            variants: [
+                (
+                    tile: Standard("textures/Left Middle Grass.png")
+                )
+            ]
+        ),
+        // Right Tile
+        (
+            rule: (
+                east: true,
+            ),
+            variants: [
+                (
+                    tile: Standard("textures/Right Middle Grass.png")
+                )
+            ]
+        ),
+    ]),
 )

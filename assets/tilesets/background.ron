@@ -1,7 +1,8 @@
+#![enable(implicit_some)]
 (
     id: 0,
-    name: Some("Background"),
+    name: "Background",
     tiles: {
-        0: "../tiles/grass.ron",
+        0: "../tiles/Grass.ron",
     }
 )
