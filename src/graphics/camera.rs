@@ -4,8 +4,8 @@ pub fn setup(mut commands: Commands) {
     commands.spawn(Camera2dBundle::default());
 }
 
-pub fn shift(mut camera: Query<(&mut Transform, &Camera)>, inputs: Res<Input<KeyCode>>) {
-    for (mut transform, camera) in camera.iter_mut() {
+pub fn shift(mut camera: Query<&mut Transform, With<Camera>>, inputs: Res<Input<KeyCode>>) {
+    for mut transform in camera.iter_mut() {
         let mut translation = Vec3::ZERO;
 
         if inputs.pressed(KeyCode::A) {
