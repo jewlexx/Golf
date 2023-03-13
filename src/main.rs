@@ -5,7 +5,6 @@
 
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
-use bevy_tileset::prelude::*;
 
 use components::{ball::Ball, vel, walls};
 
@@ -64,9 +63,15 @@ fn main() {
         },
         ..default()
     }))
-    .add_plugin(TilesetPlugin::default())
-    .add_plugin(RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(100.0))
-    .init_resource::<graphics::tiles::Background>();
+    .add_plugin(RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(100.0));
+
+    // For future use with tiled backgrounds
+    // app.add_plugin(TilesetPlugin::default())
+    //     .init_resource::<graphics::tiles::Background>()
+    //     .add_startup_system(graphics::tiles::load)
+    //     .add_system(graphics::tiles::show);
+
+    app.insert_resource(ClearColor(Color::rgb(131., 224., 76.)));
 
     #[cfg(feature = "debug_render")]
     app.add_plugin(RapierDebugRenderPlugin::default());
@@ -77,11 +82,9 @@ fn main() {
     #[cfg(debug_assertions)]
     app.add_system(graphics::camera::shift);
 
-    app.add_startup_system(graphics::tiles::load)
-        .add_startup_system(graphics::camera::setup)
+    app.add_startup_system(graphics::camera::setup)
         .add_startup_system(walls::init)
         .add_startup_system(Ball::init)
-        .add_system(graphics::tiles::show)
         .add_system(Ball::move_ball)
         .add_system(vel::apply_velocity)
         // .add_system(print_ball_altitude)
