@@ -1,0 +1,21 @@
+[startingPosition]
+xOffset = 69
+yOffset = 420
+
+[goalPosition]
+xOffset = 0
+yOffset = 0
+
+[[element]]
+shape = "square"
+xOffset = 69
+yOffset = 420
+width = 128
+height = 128
+
+[[element]]
+shape = "circle"
+xOffset = 420
+yOffset = 69
+width = 128
+height = 128
