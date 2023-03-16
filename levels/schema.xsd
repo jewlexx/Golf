@@ -13,7 +13,7 @@
             <xs:element name="height" type="xs:decimal"></xs:element>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="ballStartingPos">
+    <xs:complexType name="position">
         <xs:sequence>
             <xs:element name="xOffset" type="xs:decimal"></xs:element>
             <xs:element name="yOffset" type="xs:decimal"></xs:element>
@@ -23,7 +23,8 @@
         <xs:complexType>
             <xs:sequence minOccurs="0" maxOccurs="unbounded">
                 <xs:choice>
-                    <xs:element name="ballStartingPos" type="ballStartingPos"></xs:element>
+                    <xs:element name="ballStartingPos" type="position"></xs:element>
+                    <xs:element name="goalPos" type="position"></xs:element>
                     <xs:element name="element" type="levelElement"></xs:element>
                 </xs:choice>
             </xs:sequence>
