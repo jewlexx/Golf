@@ -19,27 +19,24 @@ fn optimize_levels() {
         let level = level.unwrap();
         let path = level.path();
 
-        // Check if is actually level file
-        if path.ends_with(".toml") {
-            println!("cargo:rerun-if-changed={}", level.path().display());
+        println!("cargo:rerun-if-changed={}", level.path().display());
 
-            let mut file = fs::File::open(&path).unwrap();
+        let mut file = fs::File::open(&path).unwrap();
 
-            let mut contents = String::new();
-            file.read_to_string(&mut contents).unwrap();
+        let mut contents = String::new();
+        file.read_to_string(&mut contents).unwrap();
 
-            let level_definition: toml::Value = toml::from_str(&contents).unwrap();
+        let level_definition: toml::Value = toml::from_str(&contents).unwrap();
 
-            let postcard_definition = postcard::to_stdvec(&level_definition).unwrap();
+        let postcard_definition = postcard::to_stdvec(&level_definition).unwrap();
 
-            let destination_path = path.with_extension("bin");
-            let level_name = destination_path.file_name().unwrap();
-            let level_path = levels_path.join(level_name);
+        let destination_path = path.with_extension("bin");
+        let level_name = destination_path.file_name().unwrap();
+        let level_path = levels_path.join(level_name);
 
-            let mut file = fs::File::create(level_path).unwrap();
+        let mut file = fs::File::create(level_path).unwrap();
 
-            file.write_all(&postcard_definition).unwrap();
-        }
+        file.write_all(&postcard_definition).unwrap();
     }
 }
 
