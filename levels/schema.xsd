@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:complexType name="levelElement">
+        <xs:sequence>
+            <xs:choice>
+                <xs:element name="square" type="xs:string"></xs:element>
+                <xs:element name="circle" type="xs:string"></xs:element>
+                <xs:element name="triangle" type="xs:string"></xs:element>
+            </xs:choice>
+            <xs:element name="offset-x" type="xs:decimal"></xs:element>
+            <xs:element name="offset-y" type="xs:decimal"></xs:element>
+            <xs:element name="width" type="xs:decimal"></xs:element>
+            <xs:element name="height" type="xs:decimal"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="level">
+        <xs:complexType>
+            <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="element" type="levelElement"></xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
