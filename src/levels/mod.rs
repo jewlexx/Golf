@@ -1,20 +1,15 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Level {
     #[serde(rename = "startingPosition")]
     pub starting_pos: Position,
     #[serde(rename = "goalPosition")]
     pub goal_pos: Position,
-    pub element: Element,
+    pub element: Vec<Element>,
 }
 
-#[derive(Debug, Deserialize, Serialize)]
-pub struct ElementType {
-    pub shape: ElementShape,
-}
-
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Copy, Clone, Deserialize, Serialize)]
 pub enum ElementShape {
     #[serde(rename = "square")]
     Square,
@@ -24,40 +19,27 @@ pub enum ElementShape {
     Triangle,
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Copy, Clone, Deserialize, Serialize)]
 pub struct Element {
-    pub shape: ElementType,
+    pub shape: ElementShape,
+
     #[serde(rename = "xOffset")]
     pub x_offset: f64,
     #[serde(rename = "yOffset")]
     pub y_offset: f64,
+
     #[serde(rename = "width")]
-    pub width: String,
+    pub width: f64,
     #[serde(rename = "height")]
-    pub height: String,
+    pub height: f64,
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Copy, Clone, Deserialize, Serialize)]
 pub struct Position {
     #[serde(rename = "xOffset")]
     pub x_offset: f64,
     #[serde(rename = "yOffset")]
     pub y_offset: f64,
-}
-
-#[derive(Debug, Deserialize, Serialize)]
-pub enum LevelOptions {
-    #[serde(rename = "level")]
-    Level(Level),
-    #[serde(rename = "startingPosition")]
-    StartingPos(Position),
-    #[serde(rename = "goalPosition")]
-    EndingPos(Position),
-}
-
-#[derive(Debug, Deserialize, Serialize)]
-pub struct LevelDefinition {
-    level: LevelOptions,
 }
 
 #[cfg(test)]
