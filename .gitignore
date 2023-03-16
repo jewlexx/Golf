@@ -2,3 +2,6 @@
 
 dist.zip
 wasm/
+
+# Generated at build time
+assets/levels

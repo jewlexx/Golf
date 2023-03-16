@@ -24,3 +24,8 @@ wasm = ["bevy_rapier2d/wasm-bindgen"]
 native = ["bevy_rapier2d/parallel"]
 inspector = ["bevy-inspector-egui"]
 debug_assets = ["bevy/debug_asset_server"]
+
+[build-dependencies]
+postcard = { version = "1.0.4", features = ["use-std"] }
+serde = "1.0.156"
+toml = "0.7.3"
