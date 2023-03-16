@@ -6,6 +6,7 @@ pub struct Level {
     pub starting_pos: Position,
     #[serde(rename = "goalPosition")]
     pub goal_pos: Position,
+    #[serde(default)]
     pub element: Vec<Element>,
 }
 
