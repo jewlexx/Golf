@@ -10,6 +10,7 @@ use components::{ball::Ball, vel, walls};
 
 mod components;
 mod graphics;
+mod levels;
 
 #[must_use]
 pub fn normalize(vec: Vec2, max: f32) -> Vec2 {

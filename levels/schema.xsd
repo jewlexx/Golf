@@ -1,12 +1,15 @@
 <?xml version="1.0"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:simpleType name="elementShape">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="square"></xs:enumeration>
+            <xs:enumeration value="circle"></xs:enumeration>
+            <xs:enumeration value="triangle"></xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
     <xs:complexType name="levelElement">
         <xs:sequence>
-            <xs:choice>
-                <xs:element name="square" type="xs:string"></xs:element>
-                <xs:element name="circle" type="xs:string"></xs:element>
-                <xs:element name="triangle" type="xs:string"></xs:element>
-            </xs:choice>
+            <xs:element name="shape" type="elementShape"></xs:element>
             <xs:element name="xOffset" type="xs:decimal"></xs:element>
             <xs:element name="yOffset" type="xs:decimal"></xs:element>
             <xs:element name="width" type="xs:decimal"></xs:element>
@@ -23,8 +26,8 @@
         <xs:complexType>
             <xs:sequence minOccurs="0" maxOccurs="unbounded">
                 <xs:choice>
-                    <xs:element name="ballStartingPos" type="position"></xs:element>
-                    <xs:element name="goalPos" type="position"></xs:element>
+                    <xs:element name="startingPosition" type="position"></xs:element>
+                    <xs:element name="goalPosition" type="position"></xs:element>
                     <xs:element name="element" type="levelElement"></xs:element>
                 </xs:choice>
             </xs:sequence>

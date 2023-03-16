@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="schema.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <level>
-    <ballStartingPos>
+    <startingPosition>
         <xOffset>69</xOffset>
         <yOffset>420</yOffset>
-    </ballStartingPos>
+    </startingPosition>
     <element>
-        <square></square>
+        <shape>square</shape>
         <xOffset>69</xOffset>
         <yOffset>72</yOffset>
         <width>128</width>
