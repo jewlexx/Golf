@@ -2,12 +2,15 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Level {
+    #[serde(rename = "startingPosition")]
+    pub starting_pos: Position,
+    #[serde(rename = "goalPosition")]
+    pub goal_pos: Position,
     pub element: Element,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct ElementType {
-    #[serde(rename = "$text")]
     pub shape: ElementShape,
 }
 
@@ -25,9 +28,9 @@ pub enum ElementShape {
 pub struct Element {
     pub shape: ElementType,
     #[serde(rename = "xOffset")]
-    pub x_offset: String,
+    pub x_offset: f64,
     #[serde(rename = "yOffset")]
-    pub y_offset: String,
+    pub y_offset: f64,
     #[serde(rename = "width")]
     pub width: String,
     #[serde(rename = "height")]
@@ -37,9 +40,9 @@ pub struct Element {
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Position {
     #[serde(rename = "xOffset")]
-    pub x_offset: String,
+    pub x_offset: f64,
     #[serde(rename = "yOffset")]
-    pub y_offset: String,
+    pub y_offset: f64,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -63,8 +66,8 @@ mod tests {
 
     #[test]
     fn print_all() {
-        let demo_level = include_str!("../../levels/demo.xml");
-        let level: LevelDefinition = quick_xml::de::from_str(demo_level).unwrap();
+        let demo_level = include_str!("../../levels/demo.toml");
+        let level: Level = toml::de::from_str(demo_level).unwrap();
 
         println!("{level:#?}");
     }
