@@ -1,5 +1,7 @@
 #![feature(let_chains)]
 
+include!("src/levels/def.rs");
+
 use std::{
     fs,
     io::{Read, Write},
@@ -26,7 +28,7 @@ fn optimize_levels() {
         let mut contents = String::new();
         file.read_to_string(&mut contents).unwrap();
 
-        let level_definition: toml::Value = toml::from_str(&contents).unwrap();
+        let level_definition: Level = toml::from_str(&contents).unwrap();
 
         let postcard_definition = postcard::to_stdvec(&level_definition).unwrap();
 

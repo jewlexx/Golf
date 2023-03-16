@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, Deserialize, Serialize)]
+#[derive(Debug, Clone, Deserialize, Serialize, PartialEq)]
 pub struct Level {
     #[serde(rename = "startingPosition")]
     pub starting_pos: Position,
@@ -9,7 +9,7 @@ pub struct Level {
     pub element: Vec<Element>,
 }
 
-#[derive(Debug, Copy, Clone, Deserialize, Serialize)]
+#[derive(Debug, Clone, Deserialize, Serialize, PartialEq)]
 pub enum ElementShape {
     #[serde(rename = "square")]
     Square,
@@ -19,7 +19,7 @@ pub enum ElementShape {
     Triangle,
 }
 
-#[derive(Debug, Copy, Clone, Deserialize, Serialize)]
+#[derive(Debug, Clone, Deserialize, Serialize, PartialEq)]
 pub struct Element {
     pub shape: ElementShape,
 
@@ -34,23 +34,10 @@ pub struct Element {
     pub height: f64,
 }
 
-#[derive(Debug, Copy, Clone, Deserialize, Serialize)]
+#[derive(Debug, Clone, Deserialize, Serialize, PartialEq)]
 pub struct Position {
     #[serde(rename = "xOffset")]
     pub x_offset: f64,
     #[serde(rename = "yOffset")]
     pub y_offset: f64,
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn print_all() {
-        let demo_level = include_str!("../../levels/demo.toml");
-        let level: Level = toml::de::from_str(demo_level).unwrap();
-
-        println!("{level:#?}");
-    }
 }
