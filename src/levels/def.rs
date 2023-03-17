@@ -1,17 +1,17 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Deserialize, Serialize, PartialEq)]
-pub struct Level {
+pub(crate) struct Level {
     #[serde(rename = "startingPosition")]
-    pub starting_pos: Position,
+    pub(crate) starting_pos: Position,
     #[serde(rename = "goalPosition")]
-    pub goal_pos: Position,
+    pub(crate) goal_pos: Position,
     #[serde(default)]
-    pub element: Vec<Element>,
+    pub(crate) element: Vec<Element>,
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize, PartialEq)]
-pub enum ElementShape {
+pub(crate) enum ElementShape {
     #[serde(rename = "square")]
     Square,
     #[serde(rename = "circle")]
@@ -21,24 +21,24 @@ pub enum ElementShape {
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize, PartialEq)]
-pub struct Element {
-    pub shape: ElementShape,
+pub(crate) struct Element {
+    pub(crate) shape: ElementShape,
 
     #[serde(rename = "xOffset")]
-    pub x_offset: f64,
+    pub(crate) x_offset: f64,
     #[serde(rename = "yOffset")]
-    pub y_offset: f64,
+    pub(crate) y_offset: f64,
 
     #[serde(rename = "width")]
-    pub width: f64,
+    pub(crate) width: f64,
     #[serde(rename = "height")]
-    pub height: f64,
+    pub(crate) height: f64,
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize, PartialEq)]
-pub struct Position {
+pub(crate) struct Position {
     #[serde(rename = "xOffset")]
-    pub x_offset: f64,
+    pub(crate) x_offset: f64,
     #[serde(rename = "yOffset")]
-    pub y_offset: f64,
+    pub(crate) y_offset: f64,
 }

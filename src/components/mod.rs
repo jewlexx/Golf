@@ -1,3 +1,3 @@
-pub mod ball;
-pub mod vel;
-pub mod walls;
+pub(crate) mod ball;
+pub(crate) mod vel;
+pub(crate) mod walls;

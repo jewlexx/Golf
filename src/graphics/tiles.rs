@@ -2,11 +2,11 @@ use bevy::prelude::*;
 use bevy_tileset::prelude::*;
 
 #[derive(Debug, Default, Resource)]
-pub struct Background {
-    pub handle: Option<Handle<Tileset>>,
+pub(crate) struct Background {
+    pub(crate) handle: Option<Handle<Tileset>>,
 }
 
-pub fn load(mut background_tileset: ResMut<Background>, asset_server: Res<AssetServer>) {
+pub(crate) fn load(mut background_tileset: ResMut<Background>, asset_server: Res<AssetServer>) {
     println!("Loading tileset");
     background_tileset.handle = Some(asset_server.load("tilesets/background.ron"));
     println!(
@@ -15,7 +15,7 @@ pub fn load(mut background_tileset: ResMut<Background>, asset_server: Res<AssetS
     );
 }
 
-pub fn show(
+pub(crate) fn show(
     tilesets: Tilesets,
     mut commands: Commands,
     tileset: Res<Background>,

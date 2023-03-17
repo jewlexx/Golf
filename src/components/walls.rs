@@ -24,7 +24,7 @@ fn invert_velocity(velocity: &mut Velocity, axis: Axis) {
 
 /// Checks if the ball has reached any of the edges of the screen
 /// Will assign the ball's postion to said edge, to ensure that it does not clip out of bounds
-pub fn check_collide(mut balls: Query<(&mut Transform, &mut Velocity), With<Ball>>) {
+pub(crate) fn check_collide(mut balls: Query<(&mut Transform, &mut Velocity), With<Ball>>) {
     let (mut pos, mut vel) = balls.get_single_mut().unwrap();
 
     if pos.translation.x < LEFT_WALL {

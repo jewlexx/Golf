@@ -1,4 +1,4 @@
-pub mod def;
+pub(crate) mod def;
 
 #[cfg(test)]
 mod tests {

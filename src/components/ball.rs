@@ -6,16 +6,16 @@ use crate::{calc_diff, normalize};
 use super::vel;
 
 #[derive(Default, Component)]
-pub struct Ball {
-    pub mouse_start: Option<Vec2>,
+pub(crate) struct Ball {
+    pub(crate) mouse_start: Option<Vec2>,
 }
 
 impl Ball {
-    pub const STARTING_POS: Vec3 = Vec3::new(0., 0., 1.);
-    pub const RADIUS: f32 = 15.;
-    pub const COLOUR: Color = Color::WHITE;
+    pub(crate) const STARTING_POS: Vec3 = Vec3::new(0., 0., 1.);
+    pub(crate) const RADIUS: f32 = 15.;
+    pub(crate) const COLOUR: Color = Color::WHITE;
 
-    pub fn init(
+    pub(crate) fn init(
         mut commands: Commands,
         mut meshes: ResMut<Assets<Mesh>>,
         mut materials: ResMut<Assets<ColorMaterial>>,
@@ -43,7 +43,7 @@ impl Ball {
     }
 
     // TODO: Implement more of a drag system than a distance from ball system
-    pub fn move_ball(
+    pub(crate) fn move_ball(
         windows: Res<Windows>,
         mouse_buttons: Res<Input<MouseButton>>,
         keyboard: Res<Input<KeyCode>>,

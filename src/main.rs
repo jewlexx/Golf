@@ -13,7 +13,7 @@ mod graphics;
 mod levels;
 
 #[must_use]
-pub fn normalize(vec: Vec2, max: f32) -> Vec2 {
+pub(crate) fn normalize(vec: Vec2, max: f32) -> Vec2 {
     let mut v = vec;
 
     if v.x > max {
@@ -43,12 +43,6 @@ const SCREEN_HEIGHT: f32 = nearest_multiple(600, 48) as f32;
 
 fn calc_diff(a: Vec2, b: Vec2) -> Vec2 {
     a - b
-}
-
-pub fn print_ball_altitude(bodies: Query<&Transform, With<RigidBody>>) {
-    for pos in bodies.iter() {
-        dbg!(pos.translation);
-    }
 }
 
 fn main() {
@@ -89,7 +83,6 @@ fn main() {
         .add_system(walls::check_collide)
         .add_system(Ball::move_ball)
         .add_system(vel::apply_velocity)
-        // .add_system(print_ball_altitude)
         .run();
 }
 

@@ -1,1 +1,1 @@
-pub mod camera;
+pub(crate) mod camera;
