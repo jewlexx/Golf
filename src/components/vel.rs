@@ -101,6 +101,14 @@ impl std::ops::DivAssign<f32> for Velocity {
     }
 }
 
+// TODO: Implement all of the above for Vec2 also
+
+impl std::ops::SubAssign<Vec2> for Velocity {
+    fn sub_assign(&mut self, rhs: Vec2) {
+        self.inner -= rhs;
+    }
+}
+
 // TODO: Fix degradation, to not "ease out"
 pub(crate) fn apply_velocity(
     mut query: Query<(&mut Velocity, &mut Transform), With<Ball>>,
