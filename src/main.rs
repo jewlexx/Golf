@@ -4,7 +4,6 @@
 #![feature(const_fn_floating_point_arithmetic)]
 
 use bevy::prelude::*;
-use bevy_rapier2d::prelude::*;
 
 use components::{ball::Ball, vel, walls};
 
@@ -57,19 +56,9 @@ fn main() {
             ..default()
         },
         ..default()
-    }))
-    .add_plugin(RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(100.0));
-
-    // For future use with tiled backgrounds
-    // app.add_plugin(TilesetPlugin::default())
-    //     .init_resource::<graphics::tiles::Background>()
-    //     .add_startup_system(graphics::tiles::load)
-    //     .add_system(graphics::tiles::show);
+    }));
 
     app.insert_resource(ClearColor(Color::rgb_u8(131, 224, 76)));
-
-    #[cfg(feature = "debug_render")]
-    app.add_plugin(RapierDebugRenderPlugin::default());
 
     #[cfg(feature = "inspector")]
     app.add_plugin(bevy_inspector_egui::quick::WorldInspectorPlugin);

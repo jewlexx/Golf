@@ -8,7 +8,6 @@ edition = "2021"
 [dependencies]
 bevy = { version = "0.9.1", features = ["bevy_sprite", "bevy_text", "wav"] }
 bevy-inspector-egui = { version = "0.17.0", optional = true }
-bevy_rapier2d = { version = "0.20.0", default-features = false, features = ["simd-nightly", "async-collider", "dim2"] }
 bevy_tileset = "0.6.0"
 postcard = { version = "1.0.4", features = ["use-std"] }
 quick-xml = { version = "0.28.0", features = ["serialize"] }
@@ -21,10 +20,7 @@ yaserde = { version = "0.8.0", features = ["yaserde_derive"] }
 yaserde_derive = "0.8.0"
 
 [features]
-default = ["native"]
-debug_render = ["bevy_rapier2d/debug-render-2d"]
-wasm = ["bevy_rapier2d/wasm-bindgen"]
-native = ["bevy_rapier2d/parallel"]
+default = []
 inspector = ["bevy-inspector-egui"]
 debug_assets = ["bevy/debug_asset_server"]
 

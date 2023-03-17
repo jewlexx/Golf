@@ -1,7 +1,6 @@
 use bevy::prelude::*;
-use bevy_rapier2d::prelude::*;
 
-use super::ball::Ball;
+use super::{ball::Ball, vel::Velocity};
 
 // x coordinates
 const RIGHT_WALL: f32 = crate::SCREEN_WIDTH / 2. - Ball::RADIUS;
@@ -17,8 +16,8 @@ enum Axis {
 
 fn invert_velocity(velocity: &mut Velocity, axis: Axis) {
     match axis {
-        Axis::X => velocity.linvel.x *= -1.,
-        Axis::Y => velocity.linvel.y *= -1.,
+        Axis::X => velocity.mul_x(-1.),
+        Axis::Y => velocity.mul_y(-1.),
     }
 }
 
