@@ -63,8 +63,8 @@ impl Ball {
                     let mouse_diff = calc_diff(mouse_start, mouse_pos) * -1.;
                     let normalized_diff = normalize(mouse_diff, 100.) * vel::MULTIPLIER;
                     dbg!(mouse_start - mouse_pos, normalized_diff);
-                    velocity.sub_x(normalized_diff.x);
-                    velocity.sub_y(normalized_diff.y);
+                    *velocity -= normalized_diff.x;
+                    *velocity -= normalized_diff.y;
                 }
 
                 ball.mouse_start = None;

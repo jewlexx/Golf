@@ -16,8 +16,8 @@ enum Axis {
 
 fn invert_velocity(velocity: &mut Velocity, axis: Axis) {
     match axis {
-        Axis::X => velocity.mul_x(-1.),
-        Axis::Y => velocity.mul_y(-1.),
+        Axis::X => velocity.get_mut().x *= -1.,
+        Axis::Y => velocity.get_mut().y *= -1.,
     }
 }
 
