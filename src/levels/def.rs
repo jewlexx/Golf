@@ -31,10 +31,20 @@ pub(crate) struct Element {
     pub(crate) position: Position,
 }
 
-#[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Component)]
+#[derive(Debug, Default, Clone, Deserialize, Serialize, PartialEq, Component)]
 pub(crate) struct Position {
     #[serde(rename = "xOffset")]
     pub(crate) x_offset: f64,
     #[serde(rename = "yOffset")]
     pub(crate) y_offset: f64,
+}
+
+#[derive(Debug, Default, Clone, Deserialize, Serialize, PartialEq, Resource)]
+pub(crate) struct BallStartingPosition {
+    pub(crate) pos: Position,
+}
+
+#[derive(Debug, Default, Clone, Deserialize, Serialize, PartialEq, Resource)]
+pub(crate) struct GoalPosition {
+    pub(crate) pos: Position,
 }

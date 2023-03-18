@@ -6,6 +6,7 @@
 use bevy::{prelude::*, window::WindowResolution};
 
 use components::{ball::Ball, vel, walls};
+use levels::def::{BallStartingPosition, GoalPosition};
 
 mod components;
 mod graphics;
@@ -57,7 +58,9 @@ fn main() {
         ..default()
     }));
 
-    app.insert_resource(ClearColor(Color::rgb_u8(131, 224, 76)));
+    app.insert_resource(ClearColor(Color::rgb_u8(131, 224, 76)))
+        .insert_resource(BallStartingPosition::default())
+        .insert_resource(GoalPosition::default());
 
     #[cfg(feature = "inspector")]
     app.add_plugin(bevy_inspector_egui::quick::WorldInspectorPlugin::default());
