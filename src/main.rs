@@ -32,7 +32,7 @@ pub(crate) fn normalize(vec: Vec2, max: f32) -> Vec2 {
 }
 
 /// Calculates the first number higher than `base` that is a multiple of `multiple`.
-///  Kinda hacky solution but it works
+/// Kinda hacky solution but it works
 const fn nearest_multiple(base: u16, multiple: u16) -> u16 {
     base - (base % multiple) + multiple
 }
