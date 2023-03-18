@@ -5,7 +5,7 @@
 #![feature(let_chains)]
 #![feature(const_fn_floating_point_arithmetic)]
 
-use bevy::prelude::*;
+use bevy::{prelude::*, window::WindowResolution};
 
 use components::{ball::Ball, vel, walls};
 
@@ -50,20 +50,19 @@ fn main() {
     let mut app = App::new();
 
     app.add_plugins(DefaultPlugins.set(WindowPlugin {
-        window: WindowDescriptor {
-            width: SCREEN_WIDTH,
-            height: SCREEN_HEIGHT,
+        primary_window: Some(Window {
+            resolution: WindowResolution::new(SCREEN_WIDTH, SCREEN_HEIGHT),
             title: "Mini Golf".to_string(),
             resizable: false,
             ..default()
-        },
+        }),
         ..default()
     }));
 
     app.insert_resource(ClearColor(Color::rgb_u8(131, 224, 76)));
 
     #[cfg(feature = "inspector")]
-    app.add_plugin(bevy_inspector_egui::quick::WorldInspectorPlugin);
+    app.add_plugin(bevy_inspector_egui::quick::WorldInspectorPlugin::default());
 
     #[cfg(debug_assertions)]
     app.add_system(graphics::camera::shift);
