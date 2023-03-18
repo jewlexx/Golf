@@ -18,20 +18,16 @@ mod tests {
 
     #[test]
     fn test_parse_toml_demo() {
-        let level = parse_toml();
-
-        dbg!(level);
+        _ = parse_toml();
     }
 
     #[test]
     fn test_parse_postcard_demo() {
-        let level = parse_postcard();
-
-        dbg!(level);
+        _ = parse_postcard();
     }
 
     #[test]
-    fn test_consistency() {
+    fn test_ensure_consistency() {
         assert_eq!(parse_toml(), parse_postcard());
     }
 }
