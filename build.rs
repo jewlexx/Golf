@@ -1,5 +1,3 @@
-#![feature(let_chains)]
-
 include!("src/levels/def.rs");
 
 use std::{

@@ -2,8 +2,6 @@
 #![cfg_attr(windows, windows_subsystem = "windows")]
 #![warn(clippy::all, clippy::pedantic)]
 #![allow(clippy::needless_pass_by_value)]
-#![feature(let_chains)]
-#![feature(const_fn_floating_point_arithmetic)]
 
 use bevy::{prelude::*, window::WindowResolution};
 
