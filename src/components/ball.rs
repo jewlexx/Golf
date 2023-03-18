@@ -45,7 +45,7 @@ impl Ball {
         let (mut transform, mut ball, mut velocity) = query.iter_mut().next().unwrap();
 
         if keyboard.just_pressed(KeyCode::R) {
-            velocity.set(Vec2::ZERO);
+            velocity.reset();
             transform.translation = Ball::STARTING_POS;
             ball.mouse_start = None;
 
