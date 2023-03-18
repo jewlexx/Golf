@@ -3,6 +3,7 @@ use bevy::prelude::*;
 use crate::components::{ball::Ball, vel::Velocity};
 
 pub(crate) mod def;
+pub(crate) mod loader;
 
 pub(crate) fn reset_level(
     mut commands: Commands,
@@ -17,7 +18,7 @@ mod tests {
     use super::*;
 
     fn parse_postcard() -> def::Level {
-        let demo = include_bytes!("../../assets/levels/demo.bin");
+        let demo = include_bytes!("../../assets/levels/demo.level");
 
         postcard::from_bytes(demo).unwrap()
     }

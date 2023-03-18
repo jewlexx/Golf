@@ -30,7 +30,7 @@ fn optimize_levels() {
 
         let postcard_definition = postcard::to_stdvec(&level_definition).unwrap();
 
-        let destination_path = path.with_extension("bin");
+        let destination_path = path.with_extension("level");
         let level_name = destination_path.file_name().unwrap();
         let level_path = levels_path.join(level_name);
 

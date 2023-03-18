@@ -1,7 +1,8 @@
-use bevy::prelude::*;
+use bevy::{prelude::*, reflect::TypeUuid};
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Component)]
+#[derive(Debug, Clone, Deserialize, Serialize, PartialEq, Component, TypeUuid)]
+#[uuid = "803c744a-7403-44c2-aff3-fdc84f9bea0a"]
 pub(crate) struct Level {
     #[serde(rename = "startingPosition")]
     pub(crate) starting_pos: Position,
