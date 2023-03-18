@@ -1,3 +1,5 @@
+// Disable the terminal on Windows
+#![cfg_attr(windows, windows_subsystem = "windows")]
 #![warn(clippy::all, clippy::pedantic)]
 #![allow(clippy::needless_pass_by_value)]
 #![feature(let_chains)]
