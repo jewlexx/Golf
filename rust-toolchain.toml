@@ -1,3 +1,2 @@
 [toolchain]
-# Uses old-ish version because 1.70 seems to have issues with a lot of the crates used
 channel = "stable"
