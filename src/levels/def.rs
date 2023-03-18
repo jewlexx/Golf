@@ -39,12 +39,24 @@ pub(crate) struct Position {
     pub(crate) y_offset: f64,
 }
 
-#[derive(Debug, Default, Clone, Deserialize, Serialize, PartialEq, Resource)]
+#[derive(Debug, Default, Clone, PartialEq, Resource)]
 pub(crate) struct BallStartingPosition {
     pub(crate) pos: Position,
 }
 
-#[derive(Debug, Default, Clone, Deserialize, Serialize, PartialEq, Resource)]
+#[derive(Debug, Default, Clone, PartialEq, Resource)]
 pub(crate) struct GoalPosition {
     pub(crate) pos: Position,
+}
+
+#[derive(Debug, Clone, PartialEq, Resource)]
+pub(crate) struct CurrentLevel {
+    pub(crate) lvl: usize,
+}
+
+// TODO: In future, will derive default as `0` will be reserved for a title screen, but for now there is no level `0`
+impl Default for CurrentLevel {
+    fn default() -> Self {
+        Self { lvl: 1 }
+    }
 }
