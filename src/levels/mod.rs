@@ -1,4 +1,16 @@
+use bevy::prelude::*;
+
+use crate::components::{ball::Ball, vel::Velocity};
+
 pub(crate) mod def;
+
+pub(crate) fn reset_level(
+    mut commands: Commands,
+    elements: Query<&mut def::Element>,
+    mut query: Query<(&mut Transform, &mut Ball, &mut Velocity)>,
+) {
+    todo!("Implement resetting of levels")
+}
 
 #[cfg(test)]
 mod tests {
