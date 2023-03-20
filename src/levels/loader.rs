@@ -64,3 +64,7 @@ impl AssetLoader for LevelLoader {
         &["level"]
     }
 }
+
+pub(crate) fn load_level(level: usize) {
+    
+}

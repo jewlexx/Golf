@@ -6,7 +6,10 @@
 use bevy::{prelude::*, window::WindowResolution};
 
 use components::{ball::Ball, vel, walls};
-use levels::def::{BallStartingPosition, GoalPosition};
+use levels::{
+    def::{BallStartingPosition, GoalPosition},
+    loader::LevelLoader,
+};
 
 mod components;
 mod graphics;
@@ -45,6 +48,10 @@ fn calc_diff(a: Vec2, b: Vec2) -> Vec2 {
     a - b
 }
 
+fn print_level_assets(server: AssetServer) {
+    // server.get_
+}
+
 fn main() {
     let mut app = App::new();
 
@@ -60,7 +67,8 @@ fn main() {
 
     app.insert_resource(ClearColor(Color::rgb_u8(131, 224, 76)))
         .insert_resource(BallStartingPosition::default())
-        .insert_resource(GoalPosition::default());
+        .insert_resource(GoalPosition::default())
+        .init_asset_loader::<LevelLoader>();
 
     #[cfg(feature = "inspector")]
     app.add_plugin(bevy_inspector_egui::quick::WorldInspectorPlugin::default());
@@ -71,9 +79,11 @@ fn main() {
     app.add_startup_system(graphics::camera::setup)
         // .add_startup_system(walls::init)
         .add_startup_system(Ball::init)
+        .add_startup_system(levels::loader::load_levels)
         .add_system(walls::check_collide)
         .add_system(Ball::move_ball)
         .add_system(vel::apply_velocity)
+        .add_system(print_level_assets)
         .run();
 }
 
