@@ -3,10 +3,10 @@ use bevy::prelude::*;
 use super::{ball::Ball, vel::Velocity};
 
 // x coordinates
-const RIGHT_WALL: f32 = crate::SCREEN_WIDTH / 2. - Ball::RADIUS;
+const RIGHT_WALL: f32 = crate::SCREEN_WIDTH as f32 / 2. - Ball::RADIUS;
 const LEFT_WALL: f32 = RIGHT_WALL * -1.;
 // y coordinates
-const TOP_WALL: f32 = crate::SCREEN_HEIGHT / 2. - Ball::RADIUS;
+const TOP_WALL: f32 = crate::SCREEN_HEIGHT as f32 / 2. - Ball::RADIUS;
 const BOTTOM_WALL: f32 = TOP_WALL * -1.;
 
 enum Axis {
