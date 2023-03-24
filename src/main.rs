@@ -1,5 +1,5 @@
 // Disable the terminal on Windows
-#![cfg_attr(windows, windows_subsystem = "windows")]
+#![cfg_attr(all(windows, not(debug_assertions)), windows_subsystem = "windows")]
 #![warn(clippy::all, clippy::pedantic)]
 #![allow(clippy::needless_pass_by_value)]
 
@@ -7,6 +7,7 @@ use bevy::prelude::*;
 
 use components::{ball::Ball, vel, walls};
 
+mod audio;
 mod components;
 mod graphics;
 mod levels;
@@ -58,7 +59,8 @@ fn main() {
         ..default()
     }));
 
-    app.insert_resource(ClearColor(Color::rgb_u8(131, 224, 76)));
+    app.insert_resource(ClearColor(Color::rgb_u8(131, 224, 76)))
+        .init_resource::<audio::Sfx>();
 
     #[cfg(feature = "inspector")]
     app.add_plugin(bevy_inspector_egui::quick::WorldInspectorPlugin::default());
@@ -66,9 +68,10 @@ fn main() {
     #[cfg(debug_assertions)]
     app.add_system(graphics::camera::shift);
 
-    app.add_startup_system(graphics::camera::setup)
+    app.add_startup_system(graphics::camera::init)
         // .add_startup_system(walls::init)
         .add_startup_system(Ball::init)
+        .add_startup_system(audio::Sfx::init)
         .add_system(walls::check_collide)
         .add_system(Ball::move_ball)
         .add_system(vel::apply_velocity)

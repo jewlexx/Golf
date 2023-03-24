@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-pub(crate) fn setup(mut commands: Commands) {
+pub(crate) fn init(mut commands: Commands) {
     commands.spawn(Camera2dBundle::default());
 }
 
