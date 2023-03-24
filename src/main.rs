@@ -1,15 +1,12 @@
 // Disable the terminal on Windows
-#![cfg_attr(windows, windows_subsystem = "windows")]
+#![cfg_attr(all(windows, not(debug_assertions)), windows_subsystem = "windows")]
 #![warn(clippy::all, clippy::pedantic)]
 #![allow(clippy::needless_pass_by_value)]
 
 use bevy::{log::LogPlugin, prelude::*};
 
 use components::{ball::Ball, vel, walls};
-use levels::{
-    def::{BallStartingPosition, GoalPosition},
-    loader::LevelLoader,
-};
+use levels::loader::LevelLoader;
 
 mod components;
 mod graphics;
@@ -53,6 +50,7 @@ fn print_level_assets(server: Res<AssetServer>) {
 }
 
 fn main() {
+    println!("LESFKNGO");
     let mut app = App::new();
 
     app.add_plugins(
