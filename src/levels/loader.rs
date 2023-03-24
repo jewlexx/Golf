@@ -6,61 +6,6 @@ use bevy::{
 
 use super::def::Level;
 
-// For now the following functions only support up to 19 levels
-// I will add more as I add more levels
-fn word_to_num(word: String) -> usize {
-    trace!("word_to_num: {}", word);
-    match word.as_str() {
-        "zero" => 0,
-        "one" => 1,
-        "two" => 2,
-        "three" => 3,
-        "four" => 4,
-        "five" => 5,
-        "six" => 6,
-        "seven" => 7,
-        "eight" => 8,
-        "nine" => 9,
-        "ten" => 10,
-        "eleven" => 11,
-        "twelve" => 12,
-        "thirteen" => 13,
-        "fourteen" => 14,
-        "fifteen" => 15,
-        "sixteen" => 16,
-        "seventeen" => 17,
-        "eighteen" => 18,
-        "nineteen" => 19,
-        _ => unimplemented!(),
-    }
-}
-
-fn num_to_word(num: usize) -> String {
-    match num {
-        0 => "zero".to_string(),
-        1 => "one".to_string(),
-        2 => "two".to_string(),
-        3 => "three".to_string(),
-        4 => "four".to_string(),
-        5 => "five".to_string(),
-        6 => "six".to_string(),
-        7 => "seven".to_string(),
-        8 => "eight".to_string(),
-        9 => "nine".to_string(),
-        10 => "ten".to_string(),
-        11 => "eleven".to_string(),
-        12 => "twelve".to_string(),
-        13 => "thirteen".to_string(),
-        14 => "fourteen".to_string(),
-        15 => "fifteen".to_string(),
-        16 => "sixteen".to_string(),
-        17 => "seventeen".to_string(),
-        18 => "eighteen".to_string(),
-        19 => "nineteen".to_string(),
-        _ => unimplemented!(),
-    }
-}
-
 #[derive(Debug, Default)]
 pub(crate) struct LevelLoader;
 
@@ -79,12 +24,8 @@ impl AssetLoader for LevelLoader {
                 .to_string_lossy()
                 .into_owned();
 
-            let level_number = word_to_num(file_name);
-
-            load_context.set_labeled_asset(
-                &format!("level-{level_number}"),
-                LoadedAsset::new(level_asset),
-            );
+            load_context
+                .set_labeled_asset(&format!("level-{file_name}"), LoadedAsset::new(level_asset));
             Ok(())
         })
     }
@@ -113,11 +54,9 @@ impl Default for ActiveLevel {
 
 pub(crate) fn load_current(server: Res<AssetServer>, mut active: ResMut<ActiveLevel>) {
     if active.data.is_none() {
-        let current_level = num_to_word(active.level);
-
-        let data = server.load::<Level, String>(format!("levels/{current_level}.level"));
+        let data = server.load::<Level, String>(format!("levels/{}.level", active.level));
         active.data = Some(data);
-        println!("Loaded level {current_level}");
+        println!("Loaded level {}", active.level);
     }
 }
 
