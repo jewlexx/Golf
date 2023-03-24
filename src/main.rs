@@ -8,6 +8,7 @@ use bevy::{log::LogPlugin, prelude::*};
 use components::{ball::Ball, vel, walls};
 use levels::loader::LevelLoader;
 
+mod audio;
 mod components;
 mod graphics;
 mod levels;
@@ -50,7 +51,6 @@ fn print_level_assets(server: Res<AssetServer>) {
 }
 
 fn main() {
-    println!("LESFKNGO");
     let mut app = App::new();
 
     app.add_plugins(DefaultPlugins.set(WindowPlugin {
@@ -67,7 +67,8 @@ fn main() {
     app.add_asset::<levels::def::Level>()
         .insert_resource(ClearColor(Color::rgb_u8(131, 224, 76)))
         .init_resource::<levels::loader::ActiveLevel>()
-        .init_asset_loader::<LevelLoader>();
+        .init_asset_loader::<LevelLoader>()
+        .init_resource::<audio::Sfx>();
 
     #[cfg(feature = "inspector")]
     app.add_plugin(bevy_inspector_egui::quick::WorldInspectorPlugin::default());
@@ -75,9 +76,10 @@ fn main() {
     #[cfg(debug_assertions)]
     app.add_system(graphics::camera::shift);
 
-    app.add_startup_system(graphics::camera::setup)
+    app.add_startup_system(graphics::camera::init)
         // .add_startup_system(walls::init)
         .add_startup_system(Ball::init)
+        .add_startup_system(audio::Sfx::init)
         .add_system(levels::loader::load_current)
         .add_system(walls::check_collide)
         .add_system(Ball::move_ball)
