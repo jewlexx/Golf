@@ -110,11 +110,16 @@ impl Default for ActiveLevel {
 }
 
 pub(crate) fn load_current(server: Res<AssetServer>, mut active: ResMut<ActiveLevel>) {
+    println!("Preparing to load level");
+
     if active.data.is_none() {
         let current_level = num_to_word(active.level);
 
         let data = server.load::<Level, String>(format!("levels/{current_level}.level"));
         active.data = Some(data);
+        println!("Loaded level {}", current_level);
+    } else {
+        println!("Le");
     }
 }
 

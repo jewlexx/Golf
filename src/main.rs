@@ -3,7 +3,7 @@
 #![warn(clippy::all, clippy::pedantic)]
 #![allow(clippy::needless_pass_by_value)]
 
-use bevy::prelude::*;
+use bevy::{log::LogPlugin, prelude::*};
 
 use components::{ball::Ball, vel, walls};
 use levels::{
@@ -55,16 +55,23 @@ fn print_level_assets(server: Res<AssetServer>) {
 fn main() {
     let mut app = App::new();
 
-    app.add_plugins(DefaultPlugins.set(WindowPlugin {
-        primary_window: Some(Window {
-            // Converts screen width and height into [`WindowReselution`]
-            resolution: (SCREEN_WIDTH, SCREEN_HEIGHT).into(),
-            title: "Mini Golf".to_string(),
-            resizable: false,
-            ..default()
-        }),
-        ..default()
-    }));
+    app.add_plugins(
+        DefaultPlugins
+            .set(WindowPlugin {
+                primary_window: Some(Window {
+                    // Converts screen width and height into [`WindowReselution`]
+                    resolution: (SCREEN_WIDTH, SCREEN_HEIGHT).into(),
+                    title: "Mini Golf".to_string(),
+                    resizable: false,
+                    ..default()
+                }),
+                ..default()
+            })
+            .set(LogPlugin {
+                filter: "info,wgpu_core=warn,wgpu_hal=warn,mygame=debug".into(),
+                level: bevy::log::Level::DEBUG,
+            }),
+    );
 
     app.insert_resource(ClearColor(Color::rgb_u8(131, 224, 76)))
         .init_resource::<levels::loader::ActiveLevel>()
