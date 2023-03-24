@@ -1,5 +1,4 @@
 use bevy::prelude::*;
-use bevy_kira_audio::{Audio, AudioControl};
 
 use super::{ball::Ball, vel::Velocity};
 
@@ -65,7 +64,7 @@ pub(crate) fn check_collide(
     if did_hit {
         if let Some(hit_sfx) = &sfx.hit {
             dbg!(&hit_sfx);
-            audio.play(hit_sfx.clone()).with_volume(1.);
+            audio.play(hit_sfx.clone());
         }
     }
 }

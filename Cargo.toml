@@ -8,7 +8,6 @@ edition = "2021"
 [dependencies]
 bevy = { version = "0.10.0", features = ["bevy_sprite", "bevy_text", "wav"] }
 bevy-inspector-egui = { version = "0.18.1", optional = true }
-bevy_kira_audio = { version = "0.15.0", features = ["wav"] }
 postcard = { version = "1.0.4", features = ["use-std"] }
 serde = { version = "1.0.158", features = ["derive"] }
 toml = "0.7.3"
