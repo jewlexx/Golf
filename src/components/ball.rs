@@ -37,12 +37,12 @@ impl Ball {
         primary_window: Query<&Window, With<PrimaryWindow>>,
         mouse_buttons: Res<Input<MouseButton>>,
         keyboard: Res<Input<KeyCode>>,
-        mut query: Query<(&mut Transform, &mut Ball, &mut Velocity)>,
+        mut ball: Query<(&mut Transform, &mut Ball, &mut Velocity)>,
     ) {
         let window = primary_window.get_single().expect("single window");
 
-        debug_assert_eq!(query.iter().count(), 1);
-        let (mut transform, mut ball, mut velocity) = query.iter_mut().next().unwrap();
+        debug_assert_eq!(ball.iter().count(), 1);
+        let (mut transform, mut ball, mut velocity) = ball.get_single_mut().expect("single ball");
 
         if keyboard.just_pressed(KeyCode::R) {
             velocity.set(Vec2::ZERO);
