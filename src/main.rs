@@ -4,6 +4,7 @@
 #![allow(clippy::needless_pass_by_value)]
 
 use bevy::prelude::*;
+use bevy_kira_audio::prelude::*;
 
 use components::{ball::Ball, vel, walls};
 
@@ -57,7 +58,8 @@ fn main() {
             ..default()
         }),
         ..default()
-    }));
+    }))
+    .add_plugin(AudioPlugin);
 
     app.insert_resource(ClearColor(Color::rgb_u8(131, 224, 76)));
 
