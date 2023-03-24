@@ -6,8 +6,10 @@ use bevy::{
 
 use super::def::Level;
 
+// For now the following functions only support up to 19 levels
+// I will add more as I add more levels
 fn word_to_num(word: String) -> usize {
-    // Only supports up to
+    trace!("word_to_num: {}", word);
     match word.as_str() {
         "zero" => 0,
         "one" => 1,
@@ -115,7 +117,7 @@ pub(crate) fn load_current(server: Res<AssetServer>, mut active: ResMut<ActiveLe
 
         let data = server.load::<Level, String>(format!("levels/{current_level}.level"));
         active.data = Some(data);
-        println!("Loaded level {}", current_level);
+        println!("Loaded level {current_level}");
     }
 }
 
