@@ -37,6 +37,8 @@ impl Ball {
         primary_window: Query<&Window, With<PrimaryWindow>>,
         mouse_buttons: Res<Input<MouseButton>>,
         keyboard: Res<Input<KeyCode>>,
+        sfx: Res<crate::audio::Sfx>,
+        audio: Res<Audio>,
         mut ball: Query<(&mut Transform, &mut Ball, &mut Velocity)>,
     ) {
         let window = primary_window.get_single().expect("single window");
@@ -63,6 +65,10 @@ impl Ball {
                     let normalized_diff = normalize(mouse_diff, 100.) * vel::MULTIPLIER;
                     dbg!(mouse_start - mouse_pos, normalized_diff);
                     *velocity -= normalized_diff;
+
+                    if let Some(swing) = &sfx.swing {
+                        audio.play(swing.clone());
+                    }
                 }
 
                 ball.mouse_start = None;
