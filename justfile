@@ -4,6 +4,7 @@ serve-web:
 build-web:
     cargo make --profile release build-web
 
+    rm -r wasm
     mkdir -p wasm
     cp -r assets/ wasm/assets
     cp target/wasm_bg.wasm wasm/
