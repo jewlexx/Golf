@@ -17,15 +17,8 @@ impl AssetLoader for LevelLoader {
     ) -> BoxedFuture<'a, Result<(), bevy::asset::Error>> {
         Box::pin(async move {
             let level_asset: Level = postcard::from_bytes(bytes)?;
-            let file_name = load_context
-                .path()
-                .file_name()
-                .unwrap()
-                .to_string_lossy()
-                .into_owned();
 
-            load_context
-                .set_labeled_asset(&format!("level-{file_name}"), LoadedAsset::new(level_asset));
+            load_context.set_default_asset(LoadedAsset::new(level_asset));
             Ok(())
         })
     }

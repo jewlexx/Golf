@@ -64,7 +64,8 @@ fn main() {
         ..default()
     }));
 
-    app.insert_resource(ClearColor(Color::rgb_u8(131, 224, 76)))
+    app.add_asset::<levels::def::Level>()
+        .insert_resource(ClearColor(Color::rgb_u8(131, 224, 76)))
         .init_resource::<levels::loader::ActiveLevel>()
         .init_asset_loader::<LevelLoader>();
 
