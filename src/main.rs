@@ -1,5 +1,5 @@
 // Disable the terminal on Windows
-#![cfg_attr(windows, windows_subsystem = "windows")]
+#![cfg_attr(all(windows, not(debug_assertions)), windows_subsystem = "windows")]
 #![warn(clippy::all, clippy::pedantic)]
 #![allow(clippy::needless_pass_by_value)]
 
@@ -61,7 +61,8 @@ fn main() {
     }))
     .add_plugin(AudioPlugin);
 
-    app.insert_resource(ClearColor(Color::rgb_u8(131, 224, 76)));
+    app.insert_resource(ClearColor(Color::rgb_u8(131, 224, 76)))
+        .init_resource::<audio::Sfx>();
 
     #[cfg(feature = "inspector")]
     app.add_plugin(bevy_inspector_egui::quick::WorldInspectorPlugin::default());

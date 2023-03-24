@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+use bevy_kira_audio::AudioSource;
 
 #[derive(Debug, Clone, Default, Resource)]
 pub(crate) struct Sfx {
