@@ -33,6 +33,32 @@ fn word_to_num(word: String) -> usize {
     }
 }
 
+fn num_to_word(num: usize) -> String {
+    match num {
+        0 => "zero".to_string(),
+        1 => "one".to_string(),
+        2 => "two".to_string(),
+        3 => "three".to_string(),
+        4 => "four".to_string(),
+        5 => "five".to_string(),
+        6 => "six".to_string(),
+        7 => "seven".to_string(),
+        8 => "eight".to_string(),
+        9 => "nine".to_string(),
+        10 => "ten".to_string(),
+        11 => "eleven".to_string(),
+        12 => "twelve".to_string(),
+        13 => "thirteen".to_string(),
+        14 => "fourteen".to_string(),
+        15 => "fifteen".to_string(),
+        16 => "sixteen".to_string(),
+        17 => "seventeen".to_string(),
+        18 => "eighteen".to_string(),
+        19 => "nineteen".to_string(),
+        _ => unimplemented!(),
+    }
+}
+
 #[derive(Debug, Default)]
 pub(crate) struct LevelLoader;
 
@@ -69,7 +95,7 @@ impl AssetLoader for LevelLoader {
 #[derive(Debug, Clone, Resource)]
 pub(crate) struct ActiveLevel {
     level: usize,
-    data: Option<Level>,
+    data: Option<Handle<Level>>,
 }
 
 impl Default for ActiveLevel {
@@ -83,6 +109,13 @@ impl Default for ActiveLevel {
     }
 }
 
-pub(crate) fn load_current(server: Res<AssetServer>, active: ResMut<ActiveLevel>) {}
+pub(crate) fn load_current(server: Res<AssetServer>, mut active: ResMut<ActiveLevel>) {
+    if active.data.is_none() {
+        let current_level = num_to_word(active.level);
+
+        let data = server.load::<Level, String>(format!("levels/{current_level}.level"));
+        active.data = Some(data);
+    }
+}
 
 pub(crate) fn load_level(level: usize) {}
