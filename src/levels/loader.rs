@@ -1,5 +1,6 @@
 use bevy::{
     asset::{AssetLoader, LoadContext, LoadedAsset},
+    prelude::*,
     utils::BoxedFuture,
 };
 
@@ -65,6 +66,23 @@ impl AssetLoader for LevelLoader {
     }
 }
 
-pub(crate) fn load_level(level: usize) {
-    
+#[derive(Debug, Clone, Resource)]
+pub(crate) struct ActiveLevel {
+    level: usize,
+    data: Option<Level>,
 }
+
+impl Default for ActiveLevel {
+    fn default() -> Self {
+        Self {
+            // Default to 1 for now, as there is no level 0
+            // In future level 0 will likely be a menu or something of that sort
+            level: 1,
+            data: None,
+        }
+    }
+}
+
+pub(crate) fn load_current(server: Res<AssetServer>, active: ResMut<ActiveLevel>) {}
+
+pub(crate) fn load_level(level: usize) {}
