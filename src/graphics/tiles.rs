@@ -6,7 +6,7 @@ pub(crate) struct Background {
     pub(crate) handle: Option<Handle<Tileset>>,
 }
 
-pub(crate) fn load(mut background_tileset: ResMut<Background>, asset_server: Res<AssetServer>) {
+pub(crate) fn load(asset_server: Res<AssetServer>, mut background_tileset: ResMut<Background>) {
     println!("Loading tileset");
     background_tileset.handle = Some(asset_server.load("tilesets/background.ron"));
     println!(
