@@ -3,7 +3,7 @@
 #![warn(clippy::all, clippy::pedantic)]
 #![allow(clippy::needless_pass_by_value)]
 
-use bevy::{prelude::*, window::WindowResolution};
+use bevy::prelude::*;
 
 use components::{ball::Ball, vel, walls};
 use levels::{
@@ -41,8 +41,8 @@ const fn nearest_multiple(base: u16, multiple: u16) -> u16 {
 
 // Calculates the nearest multiple of 48, higher than the given base
 // Useful for tiling as our textures are 48 square pixels
-const SCREEN_WIDTH: f32 = nearest_multiple(900, 48) as f32;
-const SCREEN_HEIGHT: f32 = nearest_multiple(600, 48) as f32;
+const SCREEN_WIDTH: u16 = nearest_multiple(900, 48);
+const SCREEN_HEIGHT: u16 = nearest_multiple(600, 48);
 
 fn calc_diff(a: Vec2, b: Vec2) -> Vec2 {
     a - b
@@ -57,7 +57,8 @@ fn main() {
 
     app.add_plugins(DefaultPlugins.set(WindowPlugin {
         primary_window: Some(Window {
-            resolution: WindowResolution::new(SCREEN_WIDTH, SCREEN_HEIGHT),
+            // Converts screen width and height into [`WindowReselution`]
+            resolution: (SCREEN_WIDTH, SCREEN_HEIGHT).into(),
             title: "Mini Golf".to_string(),
             resizable: false,
             ..default()
