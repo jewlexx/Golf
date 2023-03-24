@@ -71,7 +71,6 @@ fn main() {
         // .add_startup_system(walls::init)
         .add_startup_system(Ball::init)
         .add_startup_system(audio::Sfx::init)
-        .add_system(levels::loader::load_current)
         .add_system(walls::check_collide)
         .add_system(Ball::move_ball)
         .add_system(vel::apply_velocity)
