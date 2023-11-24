@@ -1,6 +1,6 @@
 use bevy::{prelude::*, sprite::MaterialMesh2dBundle, window::PrimaryWindow};
 
-use crate::{calc_diff, normalize};
+use crate::normalize;
 
 use super::vel::{self, Velocity};
 
@@ -38,8 +38,8 @@ impl Ball {
         mouse_buttons: Res<Input<MouseButton>>,
         keyboard: Res<Input<KeyCode>>,
         sfx: Res<crate::audio::Sfx>,
-        audio: Res<Audio>,
         mut ball: Query<(&mut Transform, &mut Ball, &mut Velocity)>,
+        mut commands: Commands,
     ) {
         let window = primary_window.get_single().expect("single window");
 
@@ -61,13 +61,16 @@ impl Ball {
                 }
             } else if let Some(mouse_start) = ball.mouse_start {
                 if velocity.get() == Vec2::ZERO {
-                    let mouse_diff = calc_diff(mouse_start, mouse_pos) * -1.;
+                    let mouse_diff = (mouse_start - mouse_pos) * -1.;
                     let normalized_diff = normalize(mouse_diff, 100.) * vel::MULTIPLIER;
                     dbg!(mouse_start - mouse_pos, normalized_diff);
                     *velocity -= normalized_diff;
 
                     if let Some(swing) = &sfx.swing {
-                        audio.play(swing.clone());
+                        commands.spawn(AudioBundle {
+                            source: swing.clone(),
+                            settings: PlaybackSettings::ONCE,
+                        });
                     }
                 }
 

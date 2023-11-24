@@ -25,8 +25,8 @@ fn invert_velocity(velocity: &mut Velocity, axis: Axis) {
 /// Will assign the ball's postion to said edge, to ensure that it does not clip out of bounds
 pub(crate) fn check_collide(
     sfx: Res<crate::audio::Sfx>,
-    audio: Res<Audio>,
     mut balls: Query<(&mut Transform, &mut Velocity), With<Ball>>,
+    mut commands: Commands,
 ) {
     let (mut pos, mut vel) = balls.get_single_mut().unwrap();
 
@@ -64,7 +64,10 @@ pub(crate) fn check_collide(
     if did_hit {
         if let Some(hit_sfx) = &sfx.hit {
             dbg!(&hit_sfx);
-            audio.play(hit_sfx.clone());
+            commands.spawn(AudioBundle {
+                source: hit_sfx.clone(),
+                settings: PlaybackSettings::ONCE,
+            });
         }
     }
 }

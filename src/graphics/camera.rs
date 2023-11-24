@@ -5,7 +5,7 @@ pub(crate) fn init(mut commands: Commands) {
 }
 
 pub(crate) fn shift(mut camera: Query<&mut Transform, With<Camera>>, inputs: Res<Input<KeyCode>>) {
-    for mut transform in camera.iter_mut() {
+    for mut transform in &mut camera {
         let mut translation = Vec3::ZERO;
 
         if inputs.pressed(KeyCode::A) {

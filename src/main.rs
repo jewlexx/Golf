@@ -41,10 +41,6 @@ const fn nearest_multiple(base: u16, multiple: u16) -> u16 {
 const SCREEN_WIDTH: u16 = nearest_multiple(900, 48);
 const SCREEN_HEIGHT: u16 = nearest_multiple(600, 48);
 
-fn calc_diff(a: Vec2, b: Vec2) -> Vec2 {
-    a - b
-}
-
 fn main() {
     let mut app = App::new();
 
@@ -63,19 +59,21 @@ fn main() {
         .init_resource::<audio::Sfx>();
 
     #[cfg(feature = "inspector")]
-    app.add_plugin(bevy_inspector_egui::quick::WorldInspectorPlugin::default());
+    app.add_plugins(bevy_inspector_egui::quick::WorldInspectorPlugin::new());
 
     #[cfg(debug_assertions)]
-    app.add_system(graphics::camera::shift);
+    app.add_systems(Update, graphics::camera::shift);
 
-    app.add_startup_system(graphics::camera::init)
-        // .add_startup_system(walls::init)
-        .add_startup_system(Ball::init)
-        .add_startup_system(audio::Sfx::init)
-        .add_system(walls::check_collide)
-        .add_system(Ball::move_ball)
-        .add_system(vel::apply_velocity)
-        .run();
+    app.add_systems(
+        Startup,
+        (graphics::camera::init, Ball::init, audio::Sfx::init),
+    )
+    // .add_startup_system(walls::init)
+    .add_systems(
+        Update,
+        (walls::check_collide, Ball::move_ball, vel::apply_velocity),
+    )
+    .run();
 }
 
 #[cfg(test)]
