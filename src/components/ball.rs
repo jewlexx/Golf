@@ -1,6 +1,6 @@
 use bevy::{prelude::*, sprite::MaterialMesh2dBundle, window::PrimaryWindow};
 
-use crate::normalize;
+use crate::{calc_diff, cap_vec};
 
 use super::vel::{self, Velocity};
 
@@ -61,9 +61,10 @@ impl Ball {
                 }
             } else if let Some(mouse_start) = ball.mouse_start {
                 if velocity.get() == Vec2::ZERO {
-                    let mouse_diff = (mouse_start - mouse_pos) * -1.;
-                    let normalized_diff = normalize(mouse_diff, 100.) * vel::MULTIPLIER;
-                    dbg!(mouse_start - mouse_pos, normalized_diff);
+                    // For some reason the x axis is inverted
+                    let mouse_diff = (mouse_start - mouse_pos) * Vec2::new(-1., 1.);
+
+                    let normalized_diff = cap_vec(mouse_diff, 100.) * vel::MULTIPLIER;
                     *velocity -= normalized_diff;
 
                     if let Some(swing) = &sfx.swing {
