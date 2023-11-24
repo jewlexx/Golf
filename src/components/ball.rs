@@ -1,6 +1,6 @@
 use bevy::{prelude::*, sprite::MaterialMesh2dBundle, window::PrimaryWindow};
 
-use crate::{calc_diff, cap_vec};
+use crate::cap_vec;
 
 use super::vel::{self, Velocity};
 

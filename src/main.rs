@@ -41,10 +41,6 @@ const fn nearest_multiple(base: u16, multiple: u16) -> u16 {
 const SCREEN_WIDTH: u16 = nearest_multiple(900, 48);
 const SCREEN_HEIGHT: u16 = nearest_multiple(600, 48);
 
-fn calc_diff(a: Vec2, b: Vec2) -> Vec2 {
-    a - b
-}
-
 fn main() {
     let mut app = App::new();
 
