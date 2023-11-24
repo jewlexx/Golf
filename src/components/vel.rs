@@ -119,9 +119,9 @@ pub(crate) fn apply_velocity(
     if velocity.x().abs() < MIN_VAL && velocity.y().abs() < MIN_VAL {
         velocity.set(Vec2::ZERO);
     } else if velocity.x().abs() < VERY_SLOW && velocity.y().abs() < VERY_SLOW {
-        *velocity.get_mut() *= 0.8;
+        *velocity.get_mut() *= 0.687;
     } else {
-        *velocity.get_mut() *= 0.99;
+        *velocity.get_mut() *= 0.9789;
     }
 
     let delta = time.delta_seconds();
